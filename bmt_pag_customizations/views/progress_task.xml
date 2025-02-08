@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--PAG-2-Project-Tasks-Changes-->
+    <!--Tree View-->
+    <record id="view_progress_task_tree" model="ir.ui.view">
+        <field name="name">view.progress.task.tree</field>
+        <field name="model">progress.task</field>
+        <field name="arch" type="xml">
+            <list string="Progress Status">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+    <!--Form View-->
+    <record id="view_progress_task_form" model="ir.ui.view">
+        <field name="name">view.progress.task.form</field>
+        <field name="model">progress.task</field>
+        <field name="arch" type="xml">
+            <form string="Progress Status">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description" widget="html"/>
+                        <field name="color" widget="color_picker"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--Search View-->
+    <record id="view_progress_task_search_view" model="ir.ui.view">
+        <field name="name">progress.task.search</field>
+        <field name="model">progress.task</field>
+        <field name="arch" type="xml">
+            <search>
+                 <field name="name"/>
+            </search>
+        </field>
+    </record>
+    <!--Action View-->
+    <record model="ir.actions.act_window" id="action_menu_progress_task">
+        <field name="name">Progress Status</field>
+        <field name="res_model">progress.task</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_progress_task_tree"/>
+    </record>
+    <!--Menu Item-->
+    <menuitem name="Progress Status"
+              id="progress_status_menu"
+              action="action_menu_progress_task"
+              sequence="100"
+              parent="project.menu_project_config"
+              />
+</odoo>

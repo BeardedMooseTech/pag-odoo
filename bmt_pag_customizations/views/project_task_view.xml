@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <!--PAG-2-Project-Tasks-Changes-->
+    <record id="view_task_form2_inherit_progress" model="ir.ui.view">
+            <field name="name">project.task.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_state_container')]" position="replace"/>
+                <xpath expr="//div[hasclass('o_state_container')]" position="replace">
+                     <div class="d-flex justify-content-start o_state_container w-100 w-md-50 w-lg-25">
+                        <field name="state" widget="project_task_state_selection" class="o_task_state_widget"/>
+                    </div>
+                </xpath>
+               <xpath expr="//widget[@name='web_ribbon']" position="after">
+                    <field name="status_id" invisible="1"/>
+                     <widget name="web_ribbon" title="Not Started"
+                                    invisible="status_id != 'Not Started'"  bg_color="text-bg-primary"/>
+                     <widget name="web_ribbon" title="On Track"
+                                    invisible="status_id != 'On Track'"  bg_color="text-bg-success"/>
+                     <widget name="web_ribbon" title="At Risk"
+                                    invisible="status_id != 'At Risk'"  bg_color="text-bg-warning"/>
+                     <widget name="web_ribbon" title="Delayed"
+                                    invisible="status_id != 'Delayed'"  bg_color="text-bg-warning"/>
+                     <widget name="web_ribbon" title="Blocked"
+                                    invisible="status_id != 'Blocked'"  bg_color="text-bg-danger"/>
+                     <widget name="web_ribbon" title="Completed- Pending Review"
+                                    invisible="status_id != 'Completed- Pending Review'"  bg_color="text-bg-dark"/>
+                     <widget name="web_ribbon" title="Completed"
+                                    invisible="status_id != 'Completed'"  bg_color="text-bg-info"/>
+                     <widget name="web_ribbon" title="On Hold/Canceled"
+                                    invisible="status_id != 'On Hold/Canceled'"  bg_color="text-bg-light"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Progress" name="task_progress">
+                        <group>
+                            <field name="task_status"/>
+                            <field name="actual_1"/>
+                            <field name="actual_2"/>
+                            <field name="rollup_type"/>
+                            <field name="plan_1"/>
+                            <field name="plan_2"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+    </record>
+</odoo>
