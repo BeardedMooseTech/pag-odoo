@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-   <!--PAG-2-Project-Tasks-Changes-->
+    <!--PAG-2-Project-Tasks-Changes-->
     <record id="view_task_form2_inherit_progress" model="ir.ui.view">
             <field name="name">project.task.inherit</field>
             <field name="model">project.task</field>
@@ -19,7 +19,7 @@
                      <widget name="web_ribbon" title="On Track"
                                     invisible="status_id != 'On Track'"  bg_color="text-bg-success"/>
                      <widget name="web_ribbon" title="At Risk"
-                                    invisible="status_id != 'At Risk'"  bg_color="text-bg-warning"/>
+                                    invisible="status_id != 'At Risk'"  bg_color="text-bg-light"/>
                      <widget name="web_ribbon" title="Delayed"
                                     invisible="status_id != 'Delayed'"  bg_color="text-bg-warning"/>
                      <widget name="web_ribbon" title="Blocked"
@@ -29,7 +29,7 @@
                      <widget name="web_ribbon" title="Completed"
                                     invisible="status_id != 'Completed'"  bg_color="text-bg-info"/>
                      <widget name="web_ribbon" title="On Hold/Canceled"
-                                    invisible="status_id != 'On Hold/Canceled'"  bg_color="text-bg-light"/>
+                                    invisible="status_id != 'On Hold/Canceled'"  bg_color="text-bg-secondary"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page string="Progress" name="task_progress">
@@ -43,6 +43,30 @@
                         </group>
                     </page>
                 </xpath>
+                <xpath expr="//field[@name='child_ids']//list/field[@name='stage_id']" position="after">
+                   <field name="task_status" optional="show"/>
+                   <field name="actual_1" optional="hide"/>
+                   <field name="actual_2" optional="hide"/>
+                   <field name="rollup_type" optional="hide"/>
+                   <field name="plan_1" optional="hide"/>
+                   <field name="plan_2" optional="hide"/>
+                </xpath>
             </field>
     </record>
+
+     <record id="view_task_list_inherit_progress" model="ir.ui.view">
+            <field name="name">project.task.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='stage_id']" position="after">
+                   <field name="task_status"/>
+                   <field name="actual_1" optional="hide"/>
+                   <field name="actual_2"  optional="hide"/>
+                   <field name="rollup_type"  optional="hide"/>
+                   <field name="plan_1"  optional="hide"/>
+                   <field name="plan_2"  optional="hide"/>
+               </xpath>
+            </field>
+         </record>
 </odoo>
