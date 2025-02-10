@@ -14,7 +14,6 @@
             "views/progress_task.xml",
             "views/project_task_view.xml"
     ],
-
     'installable': True,
     'application': False,
     'auto_install': False,
