@@ -4,7 +4,7 @@ from odoo import models, fields,api,_
 class ProjectTask(models.Model):
     _inherit = 'project.task'
 
-    
+
     task_status = fields.Many2one('progress.task',string='Status',tracking=True) 
     actual_1 = fields.Char(string="Actual 1",tracking=True)
     actual_2 = fields.Char(string="Actual 2",tracking=True)
