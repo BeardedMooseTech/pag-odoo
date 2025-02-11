@@ -51,6 +51,10 @@
                    <field name="plan_1" optional="hide"/>
                    <field name="plan_2" optional="hide"/>
                 </xpath>
+                <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
+                <xpath expr="//page[@name='task_dependencies']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
             </field>
     </record>
 
