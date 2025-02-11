@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_pag_customizations_pag_customizations,pag_customizations.pag_customizations,model_pag_customizations_pag_customizations,base.group_user,1,1,1,1
+access_project_status,access.progress.status,model_progress_task,base.group_user,1,1,1,1
