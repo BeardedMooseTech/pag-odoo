@@ -45,11 +45,11 @@
                 </xpath>
                 <xpath expr="//field[@name='child_ids']//list/field[@name='stage_id']" position="after">
                    <field name="task_status" optional="show"/>
+                   <field name="plan_1" optional="hide"/>
                    <field name="actual_1" optional="hide"/>
+                   <field name="plan_2" optional="hide"/>
                    <field name="actual_2" optional="hide"/>
                    <field name="rollup_type" optional="hide"/>
-                   <field name="plan_1" optional="hide"/>
-                   <field name="plan_2" optional="hide"/>
                 </xpath>
                 <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
                 <xpath expr="//page[@name='task_dependencies']" position="attributes">
@@ -63,13 +63,26 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_tree2"/>
             <field name="arch" type="xml">
+                <!--PG-3-Order-of-columns-in-task-list-and-color-->
                <xpath expr="//field[@name='stage_id']" position="after">
-                   <field name="task_status"/>
-                   <field name="actual_1" optional="hide"/>
-                   <field name="actual_2"  optional="hide"/>
-                   <field name="rollup_type"  optional="hide"/>
-                   <field name="plan_1"  optional="hide"/>
-                   <field name="plan_2"  optional="hide"/>
+                <field name="status_id" invisible="1"/>
+                   <field name="task_status"
+                    options="{'bg_color': 
+                    'purple:status_id == \'Not Started\'
+                    ;green:status_id == \'On Track\'
+                    ;white:status_id == \'At Risk\'
+                    ;yellow:status_id == \'Delayed\'
+                    ;red:status_id == \'Blocked\'
+                    ;black:status_id == \'Completed- Pending Review\'
+                    ;blue:status_id == \'Completed\'
+                    ;gray:status_id == \'On Hold/Canceled\'
+                    '}" 
+                    />
+                   <field name="plan_1"  optional="show"/>
+                   <field name="actual_1" optional="show"/>
+                   <field name="plan_2"  optional="show"/>
+                   <field name="actual_2"  optional="show"/>
+                   <field name="rollup_type"  optional="show"/>
                </xpath>
             </field>
          </record>
