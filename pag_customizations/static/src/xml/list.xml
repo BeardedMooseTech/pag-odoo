@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--PG-3-Order-of-columns-in-task-list-and-color-->
+<templates xml:space="preserve">
+    <t t-name="pag_customizations.ListRenderer.RecordRow"
+        t-inherit="web.ListRenderer.RecordRow"
+        t-inherit-mode="extension">
+        <xpath
+            expr="//t[@t-if=&quot;column.type === 'field'&quot;]//td"
+            position="attributes">
+            <attribute name="t-attf-style">
+                {{getDynamicColoredStyle(column, record)}}</attribute>
+        </xpath>
+    </t>
+</templates>

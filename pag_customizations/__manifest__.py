@@ -9,7 +9,7 @@ Module containing customizations for Precision Aviation Group
     'author': "Beareded Moose Technologies",
     'website': "https://www.beardedmoosetech.com",
     'category': 'Project',
-    'depends': ['project'],
+    'depends': ['project','web'],
     'data': [
             "security/ir.model.access.csv",
             "data/progress_task.xml",
@@ -19,6 +19,11 @@ Module containing customizations for Precision Aviation Group
     'installable': True,
     'application': False,
     'auto_install': False,
-    'assets': {},
+    'assets': {
+        "web.assets_backend": [
+            "pag_customizations/static/src/xml/list.xml",
+            "pag_customizations/static/src/js/list_renderer.js",
+        ],
+    },
     'license': 'LGPL-3',
 }
