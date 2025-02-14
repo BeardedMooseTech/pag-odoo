@@ -23,6 +23,7 @@ Module containing customizations for Precision Aviation Group
         "web.assets_backend": [
             "pag_customizations/static/src/xml/list.xml",
             "pag_customizations/static/src/js/list_renderer.js",
+            "pag_customizations/static/src/js/project_controller.js",
         ],
     },
     'license': 'LGPL-3',
