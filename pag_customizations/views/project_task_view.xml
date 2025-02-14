@@ -38,16 +38,24 @@
                             <field name="actual_1"/>
                             <field name="actual_2"/>
                             <field name="rollup_type"/>
-                            <field name="plan_1"/>
-                            <field name="plan_2"/>
+                           <!--PG-4-Custom-security-on-Planned-fields-on-Progress-tab-->
+                            <field name="plan_group" invisible="1"/>
+                            <field name="plan_1" groups="pag_customizations.group_user_plans" invisible="not plan_group"/>
+                            <field name="plan_1" readonly="1" invisible="plan_group"/>
+                            <field name="plan_2"  invisible="not plan_group" groups="pag_customizations.group_user_plans"/>
+                            <field name="plan_2" readonly="1" invisible="plan_group"/>
                         </group>
                     </page>
                 </xpath>
                 <xpath expr="//field[@name='child_ids']//list/field[@name='stage_id']" position="after">
                    <field name="task_status" optional="show"/>
-                   <field name="plan_1" optional="hide"/>
-                   <field name="actual_1" optional="hide"/>
-                   <field name="plan_2" optional="hide"/>
+                    <!--PG-4-Custom-security-on-Planned-fields-on-Progress-tab-->
+                    <field name="plan_group" column_invisible="1"/>
+                    <field name="plan_1" optional="hide" groups="pag_customizations.group_user_plans" invisible="not plan_group"/>
+                     <field name="plan_1"  optional="hide" readonly="1" invisible="plan_group"/>
+                    <field name="actual_1" optional="hide"/>
+                     <field name="plan_2" optional="hide" groups="pag_customizations.group_user_plans" invisible="not plan_group"/>
+                     <field name="plan_2"  optional="hide" readonly="1" invisible="plan_group"/>
                    <field name="actual_2" optional="hide"/>
                    <field name="rollup_type" optional="hide"/>
                 </xpath>
@@ -78,9 +86,11 @@
                     ;gray:status_id == \'On Hold/Canceled\'
                     '}" 
                     />
-                   <field name="plan_1"  optional="show"/>
-                   <field name="actual_1" optional="show"/>
-                   <field name="plan_2"  optional="show"/>
+                    <!--PG-4-Custom-security-on-Planned-fields-on-Progress-tab-->
+                    <field name="plan_group" column_invisible="1"/>
+                    <field name="plan_1"/>
+                    <field name="actual_1" optional="show"/>
+                    <field name="plan_2"/>
                    <field name="actual_2"  optional="show"/>
                    <field name="rollup_type"  optional="show"/>
                </xpath>
