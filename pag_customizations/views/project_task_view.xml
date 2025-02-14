@@ -88,9 +88,9 @@
                     />
                     <!--PG-4-Custom-security-on-Planned-fields-on-Progress-tab-->
                     <field name="plan_group" column_invisible="1"/>
-                    <field name="plan_1"/>
+                    <field name="plan_1" optional="show"/>
                     <field name="actual_1" optional="show"/>
-                    <field name="plan_2"/>
+                    <field name="plan_2" optional="show"/>
                    <field name="actual_2"  optional="show"/>
                    <field name="rollup_type"  optional="show"/>
                </xpath>
