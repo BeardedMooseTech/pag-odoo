@@ -19,7 +19,7 @@
                      <widget name="web_ribbon" title="On Track"
                                     invisible="status_id != 'On Track'"  bg_color="text-bg-success"/>
                      <widget name="web_ribbon" title="At Risk"
-                                    invisible="status_id != 'At Risk'"  bg_color="text-bg-light"/>
+                                    invisible="status_id != 'At Risk'"  bg_color="text-bg-danger"/>
                      <widget name="web_ribbon" title="Delayed"
                                     invisible="status_id != 'Delayed'"  bg_color="text-bg-warning"/>
                      <widget name="web_ribbon" title="Blocked"
@@ -70,7 +70,7 @@
                     options="{'fg_color': 
                     'purple:status_id == \'Not Started\'
                     ;green:status_id == \'On Track\'
-                    ;white:status_id == \'At Risk\'
+                    ;red:status_id == \'At Risk\'
                     ;yellow:status_id == \'Delayed\'
                     ;red:status_id == \'Blocked\'
                     ;black:status_id == \'Completed- Pending Review\'
