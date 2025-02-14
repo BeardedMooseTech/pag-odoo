@@ -13,6 +13,7 @@ Module containing customizations for Precision Aviation Group
     'data': [
             "security/ir.model.access.csv",
             "data/progress_task.xml",
+            "data/plan_group.xml",
             "views/progress_task.xml",
             "views/project_task_view.xml"
     ],
