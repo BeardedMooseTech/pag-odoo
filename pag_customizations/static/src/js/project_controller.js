@@ -6,13 +6,12 @@ patch(ProjectTaskFormController.prototype,{
     setup() {
         super.setup(); 
         setTimeout(() => {
-            let notebookTabs =  document.querySelector('.o_notebook_headers .nav-item:nth-child(2) a');
+            let subtaskTabs =  document.querySelector('.o_notebook_headers .nav-item:nth-child(2) a');
             let subtaskField = document.querySelector(".o_field_widget[name='subtask_count']");
-            if (notebookTabs) {
+            if (subtaskTabs) {
                 let hasSubtasks = subtaskField && subtaskField.innerText.trim() !== "";
-                let tab = document.querySelector('.o_notebook_headers .nav-item:nth-child(2) a');
                 let progressTabs = document.querySelector('.o_notebook_headers .nav-item:nth-child(4) a');
-                let targetTab = hasSubtasks ? tab : progressTabs;
+                let targetTab = hasSubtasks ? subtaskTabs : progressTabs;
                 if (targetTab) {
                     targetTab.click();
                 }
