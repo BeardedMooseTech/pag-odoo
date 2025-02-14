@@ -14,7 +14,7 @@ patch(ListRenderer.prototype, {
 
         color = this.getDynamicColor(column, record, "fg_color");
         if (color !== undefined) {
-            style += `color: ${color};`;
+             style += `color: ${color};font-weight: bold;`;
         }
 
         return style;
