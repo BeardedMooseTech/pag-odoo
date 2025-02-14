@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--PG-4-Custom-security-on-Planned-fields-on-Progress-tab-->
+        <record id="group_user_plans" model="res.groups">
+        <field name="name">Project Plans</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+    </data>
+</odoo>

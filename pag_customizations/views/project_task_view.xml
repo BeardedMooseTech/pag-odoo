@@ -35,19 +35,19 @@
                     <page string="Progress" name="task_progress">
                         <group>
                             <field name="task_status"/>
-                            <field name="actual_1"/>
-                            <field name="actual_2"/>
+                             <field name="plan_1"/>
+                             <field name="actual_1"/>
+                             <field name="plan_2"/>
+                             <field name="actual_2"/>
                             <field name="rollup_type"/>
-                            <field name="plan_1"/>
-                            <field name="plan_2"/>
                         </group>
                     </page>
                 </xpath>
                 <xpath expr="//field[@name='child_ids']//list/field[@name='stage_id']" position="after">
                    <field name="task_status" optional="show"/>
-                   <field name="plan_1" optional="hide"/>
-                   <field name="actual_1" optional="hide"/>
-                   <field name="plan_2" optional="hide"/>
+                    <field name="plan_1"  optional="hide"/>
+                    <field name="actual_1" optional="hide"/>
+                     <field name="plan_2"  optional="hide"/>
                    <field name="actual_2" optional="hide"/>
                    <field name="rollup_type" optional="hide"/>
                 </xpath>
@@ -78,9 +78,9 @@
                     ;gray:status_id == \'On Hold/Canceled\'
                     '}" 
                     />
-                   <field name="plan_1"  optional="show"/>
-                   <field name="actual_1" optional="show"/>
-                   <field name="plan_2"  optional="show"/>
+                    <field name="plan_1" optional="show"/>
+                    <field name="actual_1" optional="show"/>
+                    <field name="plan_2" optional="show"/>
                    <field name="actual_2"  optional="show"/>
                    <field name="rollup_type"  optional="show"/>
                </xpath>
