@@ -76,8 +76,7 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}" 
-                    />
+                    '}" optional="show"/>
                     <field name="plan_1" optional="show"/>
                     <field name="actual_1" optional="show"/>
                     <field name="plan_2" optional="show"/>
@@ -86,4 +85,16 @@
                </xpath>
             </field>
          </record>
+
+        <!--PG-7-Changes-to-task-list-view-->
+        <record id="project_task_view_tree_inherit_order" model="ir.ui.view">
+            <field name="name">project.task.view.list.main.base</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.project_task_view_tree_main_base"/>
+            <field name="arch" type="xml">
+                <xpath expr="//list" position="attributes">
+                    <attribute name="default_order">name asc</attribute>
+                </xpath>
+            </field>
+        </record>
 </odoo>
