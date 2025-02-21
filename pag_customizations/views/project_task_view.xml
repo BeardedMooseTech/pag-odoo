@@ -64,6 +64,7 @@
                     <field name="plan_2"  optional="hide" readonly="1"/>
                     <field name="actual_2" optional="hide" readonly="1"/>
                     <field name="rollup_type" optional="hide" readonly="1"/>
+
                 </xpath>
                 <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
                 <xpath expr="//page[@name='task_dependencies']" position="attributes">
