@@ -43,13 +43,28 @@
                         </group>
                     </page>
                 </xpath>
+                <!--PG-8-Changes-to-sub-tasks-list-on-parent-tasks-->
+                <xpath expr="//field[@name='child_ids']//list" position="attributes">
+                   <attribute name="default_order">name asc</attribute>
+                </xpath>
                 <xpath expr="//field[@name='child_ids']//list/field[@name='stage_id']" position="after">
-                   <field name="task_status" optional="show"/>
-                    <field name="plan_1"  optional="hide"/>
-                    <field name="actual_1" optional="hide"/>
-                     <field name="plan_2"  optional="hide"/>
-                   <field name="actual_2" optional="hide"/>
-                   <field name="rollup_type" optional="hide"/>
+                    <field name="status_id" column_invisible="1"/>
+                    <field name="task_status" options="{'fg_color': 
+                    'purple:status_id == \'Not Started\'
+                    ;green:status_id == \'On Track\'
+                    ;red:status_id == \'At Risk\'
+                    ;yellow:status_id == \'Delayed\'
+                    ;red:status_id == \'Blocked\'
+                    ;black:status_id == \'Completed- Pending Review\'
+                    ;blue:status_id == \'Completed\'
+                    ;gray:status_id == \'On Hold/Canceled\'
+                    '}"  optional="show"/>
+                    <field name="plan_1"  optional="hide" readonly="1"/>
+                    <field name="actual_1" optional="hide" readonly="1"/>
+                    <field name="plan_2"  optional="hide" readonly="1"/>
+                    <field name="actual_2" optional="hide" readonly="1"/>
+                    <field name="rollup_type" optional="hide" readonly="1"/>
+
                 </xpath>
                 <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
                 <xpath expr="//page[@name='task_dependencies']" position="attributes">
@@ -76,8 +91,7 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}" 
-                    />
+                    '}" optional="show"/>
                     <field name="plan_1" optional="show"/>
                     <field name="actual_1" optional="show"/>
                     <field name="plan_2" optional="show"/>
@@ -86,4 +100,16 @@
                </xpath>
             </field>
          </record>
+
+        <!--PG-7-Changes-to-task-list-view-->
+        <record id="project_task_view_tree_inherit_order" model="ir.ui.view">
+            <field name="name">project.task.view.list.main.base</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.project_task_view_tree_main_base"/>
+            <field name="arch" type="xml">
+                <xpath expr="//list" position="attributes">
+                    <attribute name="default_order">name asc</attribute>
+                </xpath>
+            </field>
+        </record>
 </odoo>
