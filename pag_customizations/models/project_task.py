@@ -4,6 +4,7 @@ from lxml import etree
 #PAG-2-Project-Tasks-Changes
 class ProjectTask(models.Model):
     _inherit = 'project.task'
+    _order = "name asc"
 
 
     task_status = fields.Many2one('progress.task',string='Status',tracking=True) 
