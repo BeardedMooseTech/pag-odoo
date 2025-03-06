@@ -49,6 +49,7 @@
                 </xpath>
                 <xpath expr="//field[@name='child_ids']//list/field[@name='stage_id']" position="after">
                     <field name="status_id" column_invisible="1"/>
+                    <!--PG-11-Status-on-level-two-needs-to-be-read-only-->
                     <field name="task_status" options="{'fg_color': 
                     'purple:status_id == \'Not Started\'
                     ;green:status_id == \'On Track\'
@@ -58,7 +59,7 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}"  optional="show"/>
+                    '}"  optional="show" readonly="1"/>
                     <field name="plan_1"  optional="hide" readonly="1"/>
                     <field name="actual_1" optional="hide" readonly="1"/>
                     <field name="plan_2"  optional="hide" readonly="1"/>
@@ -122,5 +123,11 @@
                 </xpath>
             </field>
         </record>
-
+        <!--PG-14-Default-Tasks-View-to-List-instead-of-Kanban-->
+         <record id="project.action_view_my_task" model="ir.actions.act_window">
+            <field name="view_mode">list,kanban,form,gantt,calendar,map,pivot,graph,activity</field>
+        </record>
+        <record id="project.open_view_my_task_list_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+        </record>
 </odoo>
