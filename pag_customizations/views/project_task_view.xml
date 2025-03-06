@@ -113,4 +113,12 @@
                 </xpath>
             </field>
         </record>
+
+        <!--PG-14-Default-Tasks-View-to-List-instead-of-Kanban-->
+         <record id="project.action_view_my_task" model="ir.actions.act_window">
+            <field name="view_mode">list,kanban,form,gantt,calendar,map,pivot,graph,activity</field>
+        </record>
+        <record id="project.open_view_my_task_list_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+        </record>
 </odoo>
