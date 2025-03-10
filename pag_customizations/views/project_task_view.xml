@@ -91,12 +91,12 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}" optional="show"/>
-                    <field name="plan_1" optional="show"/>
-                    <field name="actual_1" optional="show"/>
-                    <field name="plan_2" optional="show"/>
-                   <field name="actual_2"  optional="show"/>
-                   <field name="rollup_type"  optional="show"/>
+                    '}" optional="hide"/>
+                    <field name="plan_1" optional="hide"/>
+                    <field name="actual_1" optional="hide"/>
+                    <field name="plan_2" optional="hide"/>
+                   <field name="actual_2"  optional="hide"/>
+                   <field name="rollup_type"  optional="hide"/>
                </xpath>
             </field>
          </record>
