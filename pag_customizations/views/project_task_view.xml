@@ -37,8 +37,9 @@
                             <field name="task_status"/>
                              <field name="plan_1"/>
                              <field name="actual_1"/>
-                             <field name="plan_2"/>
-                             <field name="actual_2"/>
+                             <!--PG-20-Changes-to-Plan-Actual-fields-->
+                             <!--<field name="plan_2"/>
+                             <field name="actual_2"/>-->
                             <field name="rollup_type"/>
                         </group>
                     </page>
@@ -62,8 +63,9 @@
                     '}"  optional="show" readonly="1"/>
                     <field name="plan_1"  optional="hide" readonly="1"/>
                     <field name="actual_1" optional="hide" readonly="1"/>
-                    <field name="plan_2"  optional="hide" readonly="1"/>
-                    <field name="actual_2" optional="hide" readonly="1"/>
+                     <!--PG-20-Changes-to-Plan-Actual-fields-->
+                    <!--<field name="plan_2"  optional="hide" readonly="1"/>
+                    <field name="actual_2" optional="hide" readonly="1"/>-->
                     <field name="rollup_type" optional="hide" readonly="1"/>
 
                 </xpath>
@@ -105,8 +107,9 @@
                     '}" optional="show"/>
                     <field name="plan_1" optional="show"/>
                     <field name="actual_1" optional="show"/>
-                    <field name="plan_2" optional="show"/>
-                   <field name="actual_2"  optional="show"/>
+                   <!--PG-20-Changes-to-Plan-Actual-fields-->
+                    <!--<field name="plan_2" optional="show"/>
+                   <field name="actual_2"  optional="show"/>-->
                    <field name="rollup_type"  optional="show"/>
                </xpath>
             </field>
