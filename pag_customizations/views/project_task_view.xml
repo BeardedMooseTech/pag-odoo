@@ -39,7 +39,8 @@
                              <field name="actual_1"/>
                              <field name="plan_2"/>
                              <field name="actual_2"/>
-                            <field name="rollup_type"/>
+                             <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
+                            <field name="rollup_type" required="parent_id"/>
                         </group>
                     </page>
                 </xpath>
@@ -64,7 +65,8 @@
                     <field name="actual_1" optional="hide" readonly="1"/>
                     <field name="plan_2"  optional="hide" readonly="1"/>
                     <field name="actual_2" optional="hide" readonly="1"/>
-                    <field name="rollup_type" optional="hide" readonly="1"/>
+                    <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
+                    <field name="rollup_type" optional="hide" required="parent_id" readonly="1"/>
 
                 </xpath>
                 <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
@@ -103,11 +105,12 @@
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
                     '}" optional="hide"/>
+                   <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
                     <field name="plan_1" optional="hide"/>
                     <field name="actual_1" optional="hide"/>
                     <field name="plan_2" optional="hide"/>
                    <field name="actual_2"  optional="hide"/>
-                   <field name="rollup_type"  optional="hide"/>
+                 <field name="rollup_type" required="parent_id"  optional="hide"/>
                </xpath>
             </field>
          </record>
