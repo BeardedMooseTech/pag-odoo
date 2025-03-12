@@ -85,7 +85,7 @@ class ProjectTask(models.Model):
     #PG-10-Sub-tasks-list-changes
     def write(self, vals):
         """ Detect changes in actual_1, and status fields to update parent task """
-        fields_to_check = {'actual_1','task_status'}
+        fields_to_check = {'actual_1', 'task_status'}
         tasks_to_update = self.filtered(lambda task: any(field in vals for field in fields_to_check))
         result = super(ProjectTask, self).write(vals)
         self.env.cr.commit()
@@ -94,6 +94,5 @@ class ProjectTask(models.Model):
         for task in tasks_to_update:
             if task.parent_id:
                 task.parent_id._compute_roll_up_values()
-
         return result
 
