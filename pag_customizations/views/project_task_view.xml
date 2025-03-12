@@ -37,8 +37,7 @@
                             <field name="task_status"/>
                              <field name="plan_1"/>
                              <field name="actual_1"/>
-                             <field name="plan_2"/>
-                             <field name="actual_2"/>
+                            
                              <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
                             <field name="rollup_type" required="parent_id"/>
                         </group>
@@ -63,8 +62,7 @@
                     '}"  optional="show" readonly="1"/>
                     <field name="plan_1"  optional="hide" readonly="1"/>
                     <field name="actual_1" optional="hide" readonly="1"/>
-                    <field name="plan_2"  optional="hide" readonly="1"/>
-                    <field name="actual_2" optional="hide" readonly="1"/>
+                   
                     <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
                     <field name="rollup_type" optional="hide" required="parent_id" readonly="1"/>
 
@@ -104,13 +102,12 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}" optional="show"/>
-                    <field name="plan_1" optional="show"/>
-                    <field name="actual_1" optional="show"/>
-                    <field name="plan_2" optional="show"/>
-                   <field name="actual_2"  optional="show"/>
+                    '}" optional="hide"/>
+                    <field name="plan_1" optional="hide"/>
+                    <field name="actual_1" optional="hide"/>
+                  
                    <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
-                   <field name="rollup_type" required="parent_id"  optional="show"/>
+                   <field name="rollup_type" required="parent_id"  optional="hide"/>
                </xpath>
             </field>
          </record>
