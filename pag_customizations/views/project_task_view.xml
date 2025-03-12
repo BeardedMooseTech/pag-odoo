@@ -50,6 +50,7 @@
                 </xpath>
                 <xpath expr="//field[@name='child_ids']//list/field[@name='stage_id']" position="after">
                     <field name="status_id" column_invisible="1"/>
+                    <!--PG-11-Status-on-level-two-needs-to-be-read-only-->
                     <field name="task_status" options="{'fg_color': 
                     'purple:status_id == \'Not Started\'
                     ;green:status_id == \'On Track\'
@@ -59,7 +60,7 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}"  optional="show"/>
+                    '}"  optional="show" readonly="1"/>
                     <field name="plan_1"  optional="hide" readonly="1"/>
                     <field name="actual_1" optional="hide" readonly="1"/>
                     <field name="plan_2"  optional="hide" readonly="1"/>
@@ -70,6 +71,16 @@
                 </xpath>
                 <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
                 <xpath expr="//page[@name='task_dependencies']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--PG-15-Hide-fields-on-the-task-header-->
+                <xpath expr="//field[@name='user_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
             </field>
@@ -114,5 +125,12 @@
                     <attribute name="default_order">name asc</attribute>
                 </xpath>
             </field>
+        </record>
+        <!--PG-14-Default-Tasks-View-to-List-instead-of-Kanban-->
+         <record id="project.action_view_my_task" model="ir.actions.act_window">
+            <field name="view_mode">list,kanban,form,gantt,calendar,map,pivot,graph,activity</field>
+        </record>
+        <record id="project.open_view_my_task_list_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
         </record>
 </odoo>
