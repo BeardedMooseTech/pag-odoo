@@ -103,11 +103,11 @@
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
                     '}" optional="hide"/>
-                    <field name="plan_1" optional="hide"/>
-                    <field name="actual_1" optional="hide"/>
                   
                    <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
-                   <field name="rollup_type" required="parent_id"  optional="hide"/>
+                    <field name="plan_1" optional="hide"/>
+                    <field name="actual_1" optional="hide"/>
+                 <field name="rollup_type" required="parent_id"  optional="hide"/>
                </xpath>
             </field>
          </record>
@@ -124,10 +124,28 @@
             </field>
         </record>
         <!--PG-14-Default-Tasks-View-to-List-instead-of-Kanban-->
-         <record id="project.action_view_my_task" model="ir.actions.act_window">
+        <record id="project.action_view_my_task" model="ir.actions.act_window">
             <field name="view_mode">list,kanban,form,gantt,calendar,map,pivot,graph,activity</field>
+
         </record>
         <record id="project.open_view_my_task_list_tree" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
+            
         </record>
-</odoo>
+        <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+            <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        </record>
+        <record id="project.project_task_tree_action_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+        </record>
+        <record id="open_view_all_tasks_list_view_group_by" model="ir.ui.view">
+            <field name="name">open.view.all.tasks.list.view</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.open_view_all_tasks_list_view"/>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                   <attribute name="default_group_by">stage_id</attribute>
+                </list>
+            </field>
+        </record>
+    </odoo>
