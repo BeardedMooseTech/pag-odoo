@@ -37,6 +37,9 @@
                             <field name="task_status"/>
                              <field name="plan_1"/>
                              <field name="actual_1"/>
+                             <!--PG-20-Changes-to-Plan-Actual-fields-->
+                             <!--<field name="plan_2"/>
+                             <field name="actual_2"/>-->
                              <field name="plan_2"/>
                              <field name="actual_2"/>
                              <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
@@ -63,11 +66,13 @@
                     '}"  optional="show" readonly="1"/>
                     <field name="plan_1"  optional="hide" readonly="1"/>
                     <field name="actual_1" optional="hide" readonly="1"/>
+                     <!--PG-20-Changes-to-Plan-Actual-fields-->
+                    <!--<field name="plan_2"  optional="hide" readonly="1"/>
+                    <field name="actual_2" optional="hide" readonly="1"/>-->
                     <field name="plan_2"  optional="hide" readonly="1"/>
                     <field name="actual_2" optional="hide" readonly="1"/>
                     <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
                     <field name="rollup_type" optional="hide" required="parent_id" readonly="1"/>
-
                 </xpath>
                 <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
                 <xpath expr="//page[@name='task_dependencies']" position="attributes">
@@ -108,6 +113,10 @@
                    <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
                     <field name="plan_1" optional="hide"/>
                     <field name="actual_1" optional="hide"/>
+                   <!--PG-20-Changes-to-Plan-Actual-fields-->
+                    <!--<field name="plan_2" optional="show"/>
+                   <field name="actual_2"  optional="show"/>-->
+                   
                     <field name="plan_2" optional="hide"/>
                    <field name="actual_2"  optional="hide"/>
                  <field name="rollup_type" required="parent_id"  optional="hide"/>
