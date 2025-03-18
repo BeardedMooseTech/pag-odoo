@@ -87,12 +87,12 @@ class ProjectTask(models.Model):
         fields_to_check = {'actual_1', 'actual_2', 'task_status'}
         tasks_to_update = self.filtered(lambda task: any(field in vals for field in fields_to_check))
         result = super(ProjectTask, self).write(vals)
-        self.env.cr.commit()
-
-        # Trigger parent update after saving sub-task changes
-        for task in tasks_to_update:
-            if task.parent_id:
-                task.parent_id._compute_roll_up_values()
+        if tasks_to_update:
+            self.env.cr.commit()
+            # Trigger parent update after saving sub-task changes
+            for task in tasks_to_update:
+                if task.parent_id:
+                    task.parent_id._compute_roll_up_values()
 
         return result
 
