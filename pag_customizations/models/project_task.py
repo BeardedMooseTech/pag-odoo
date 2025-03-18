@@ -15,6 +15,7 @@ class ProjectTask(models.Model):
     rollup_type = fields.Selection([('1','Avg'),('2','YTD'),('3','Last Actual (Numeric)'),('4','Last Actual (Percentage)')],string="Rollup Type",tracking=True)
     plan_2 = fields.Char(string="Plan 2",tracking=True)
     status_id = fields.Char(related='task_status.name',string="Status Name")
+    #PG-24-Create-Initiative-field-on-the-project-level
     initiative_id = fields.Many2one('project.type',related='project_id.initiative_id',string='Initiative',store=True)
     project_type = fields.Selection(related='project_id.project_type',string='Project Type',store=True)
     
