@@ -15,7 +15,10 @@ class ProjectTask(models.Model):
     rollup_type = fields.Selection([('1','Avg'),('2','YTD'),('3','Last Actual (Numeric)'),('4','Last Actual (Percentage)')],string="Rollup Type",tracking=True)
     plan_2 = fields.Char(string="Plan 2",tracking=True)
     status_id = fields.Char(related='task_status.name',string="Status Name")
+    initiative_id = fields.Many2one('project.type',related='project_id.initiative_id',string='Initiative',store=True)
+    project_type = fields.Selection(related='project_id.project_type',string='Project Type',store=True)
     
+
     #PG-4-Custom-security-on-Planned-fields-on-Progress-tab
     @api.model
     def get_views(self, views, options=None):
@@ -88,11 +91,12 @@ class ProjectTask(models.Model):
         fields_to_check = {'actual_1', 'task_status'}
         tasks_to_update = self.filtered(lambda task: any(field in vals for field in fields_to_check))
         result = super(ProjectTask, self).write(vals)
-        self.env.cr.commit()
-
-        # Trigger parent update after saving sub-task changes
-        for task in tasks_to_update:
-            if task.parent_id:
-                task.parent_id._compute_roll_up_values()
+        if tasks_to_update:
+            self.env.cr.commit()
+            if self.project_type =='goals':
+                # Trigger parent update after saving sub-task changes
+                for task in tasks_to_update:
+                    if task.parent_id:
+                        task.parent_id._compute_roll_up_values()
         return result
 
