@@ -6,6 +6,10 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
+                 <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="initiative_id" invisible="1"/>
+                    <field name="project_type" invisible="1"/>
+                </xpath>
                 <xpath expr="//div[hasclass('o_state_container')]" position="replace"/>
                 <xpath expr="//div[hasclass('o_state_container')]" position="replace">
                      <div class="d-flex justify-content-start o_state_container w-100 w-md-50 w-lg-25">
@@ -15,24 +19,24 @@
                <xpath expr="//widget[@name='web_ribbon']" position="after">
                     <field name="status_id" invisible="1"/>
                      <widget name="web_ribbon" title="Not Started"
-                                    invisible="status_id != 'Not Started'"  bg_color="text-bg-primary"/>
+                                    invisible="status_id != 'Not Started' or project_type =='pmo'"  bg_color="text-bg-primary"/>
                      <widget name="web_ribbon" title="On Track"
-                                    invisible="status_id != 'On Track'"  bg_color="text-bg-success"/>
+                                    invisible="status_id != 'On Track' or project_type =='pmo'" bg_color="text-bg-success"/>
                      <widget name="web_ribbon" title="At Risk"
-                                    invisible="status_id != 'At Risk'"  bg_color="text-bg-danger"/>
+                                    invisible="status_id != 'At Risk' or project_type =='pmo'"  bg_color="text-bg-danger"/>
                      <widget name="web_ribbon" title="Delayed"
-                                    invisible="status_id != 'Delayed'"  bg_color="text-bg-warning"/>
+                                    invisible="status_id != 'Delayed' or project_type =='pmo'"  bg_color="text-bg-warning"/>
                      <widget name="web_ribbon" title="Blocked"
-                                    invisible="status_id != 'Blocked'"  bg_color="text-bg-danger"/>
+                                    invisible="status_id != 'Blocked' or project_type =='pmo'"  bg_color="text-bg-danger"/>
                      <widget name="web_ribbon" title="Completed- Pending Review"
-                                    invisible="status_id != 'Completed- Pending Review'"  bg_color="text-bg-dark"/>
+                                    invisible="status_id != 'Completed- Pending Review' or project_type =='pmo'"   bg_color="text-bg-dark"/>
                      <widget name="web_ribbon" title="Completed"
-                                    invisible="status_id != 'Completed'"  bg_color="text-bg-info"/>
+                                    invisible="status_id != 'Completed' or project_type =='pmo'" bg_color="text-bg-info"/>
                      <widget name="web_ribbon" title="On Hold/Canceled"
-                                    invisible="status_id != 'On Hold/Canceled'"  bg_color="text-bg-secondary"/>
+                                    invisible="status_id != 'On Hold/Canceled' or project_type =='pmo'"  bg_color="text-bg-secondary"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                    <page string="Progress" name="task_progress">
+                    <page string="Progress" name="task_progress" invisible="project_type=='pmo'">
                         <group>
                             <field name="task_status"/>
                              <field name="plan_1"/>
@@ -61,14 +65,14 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}"  optional="show" readonly="1"/>
-                    <field name="plan_1"  optional="hide" readonly="1"/>
-                    <field name="actual_1" optional="hide" readonly="1"/>
+                    '}"  optional="show" readonly="1" invisible="project_type =='pmo'"/>
+                    <field name="plan_1"  optional="hide" readonly="1" invisible="project_type =='pmo'"/>
+                    <field name="actual_1" optional="hide" readonly="1" invisible="project_type =='pmo'"/>
                      <!--PG-20-Changes-to-Plan-Actual-fields-->
                     <!--<field name="plan_2"  optional="hide" readonly="1"/>
                     <field name="actual_2" optional="hide" readonly="1"/>-->
                     <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
-                    <field name="rollup_type" optional="hide" required="parent_id" readonly="1"/>
+                    <field name="rollup_type" optional="hide" required="parent_id" readonly="1" invisible="project_type =='pmo'"/>
                 </xpath>
                 <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
                 <xpath expr="//page[@name='task_dependencies']" position="attributes">
@@ -94,6 +98,8 @@
             <field name="arch" type="xml">
                 <!--PG-3-Order-of-columns-in-task-list-and-color-->
                <xpath expr="//field[@name='stage_id']" position="after">
+                <field name="initiative_id"/>
+                <field name="project_type"/>
                 <field name="status_id" column_invisible="1"/>
                    <field name="task_status"
                     options="{'fg_color': 
@@ -105,16 +111,16 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}" optional="hide"/>
+                    '}" optional="hide" invisible="project_type =='pmo'"/>
                   
                    <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
-                    <field name="plan_1" optional="hide"/>
-                    <field name="actual_1" optional="hide"/>
+                    <field name="plan_1" optional="hide" invisible="project_type =='pmo'"/>
+                    <field name="actual_1" optional="hide" invisible="project_type =='pmo'"/>
 
                    <!--PG-20-Changes-to-Plan-Actual-fields-->
                     <!--<field name="plan_2" optional="show"/>
                    <field name="actual_2"  optional="show"/>-->
-                 <field name="rollup_type" required="parent_id"  optional="hide"/>
+                 <field name="rollup_type" required="parent_id"  invisible="project_type =='pmo'" optional="hide"/>
                </xpath>
             </field>
          </record>
