@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--PG-24-Create-Initiative-field-on-the-project-level-->
+    <record id="project_edit_project_inherit_type" model="ir.ui.view">
+            <field name="name">project.project.type</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="before">
+                    <field name="initiative_id"  options="{'no_create': True}"/>
+                    <field name="project_type"  />
+                </xpath>
+            </field>
+        </record>
+</odoo>
