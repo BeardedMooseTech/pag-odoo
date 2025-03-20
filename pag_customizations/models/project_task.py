@@ -97,5 +97,27 @@ class ProjectTask(models.Model):
         return result
 
 
+     #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    def action_open_subtasks(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Subtasks',
+            'res_model': 'project.task',
+            'view_mode': 'tree,form',
+            'domain': [('parent_id', '=', self.id)],
+        }
+        
+    #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    def action_open_task(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Task',
+            'res_model': 'project.task',
+            'view_mode': 'form',
+            'res_id': self.id,
+        }
+
+
+
 
     
