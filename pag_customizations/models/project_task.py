@@ -8,13 +8,18 @@ class ProjectTask(models.Model):
 
 
     task_status = fields.Many2one('progress.task',string='Status',tracking=True) 
-    actual_1 = fields.Char(string="Actual 1",tracking=True)
-    actual_2 = fields.Char(string="Actual 2",tracking=True)
-    rollup_type = fields.Selection([('1','Avg'),('2','YTD'),('3','Last Actual (Numeric)'),('4','Last Actual (Percentage)')],string="Rollup Type",tracking=True,required=True)
-    plan_1 = fields.Char(string="Plan 1",tracking=True)
+    actual_1 = fields.Float(string="Actual",tracking=True)
+    actual_2 = fields.Float(string="Actual 2",tracking=True)
+    plan_1 = fields.Char(string="Plan",tracking=True)
+    #PG-18-Make-Roll-up-Type-not-required-on-parent-level
+    rollup_type = fields.Selection([('1','Avg'),('2','YTD'),('3','Last Actual (Numeric)'),('4','Last Actual (Percentage)')],string="Rollup Type",tracking=True)
     plan_2 = fields.Char(string="Plan 2",tracking=True)
     status_id = fields.Char(related='task_status.name',string="Status Name")
+    #PG-24-Create-Initiative-field-on-the-project-level
+    initiative_id = fields.Many2one('project.type',related='project_id.initiative_id',string='Initiative',store=True)
+    project_type = fields.Selection(related='project_id.project_type',string='Project Type',store=True)
     
+
     #PG-4-Custom-security-on-Planned-fields-on-Progress-tab
     @api.model
     def get_views(self, views, options=None):
@@ -26,12 +31,12 @@ class ProjectTask(models.Model):
                 arch = etree.fromstring(arch)  
                 for node in arch.iterfind(".//field[@name='child_ids']/list/field[@name='plan_1']"):
                     node.set("readonly", "1")
-                for node in arch.iterfind(".//field[@name='child_ids']/list/field[@name='plan_2']"):
-                    node.set("readonly", "1")
+                #for node in arch.iterfind(".//field[@name='child_ids']/list/field[@name='plan_2']"):
+                #    node.set("readonly", "1")
                 for node in arch.iterfind(".//field[@name='plan_1']"):
                     node.set("readonly", "1")
-                for node in arch.iterfind(".//field[@name='plan_2']"):
-                    node.set("readonly", "1")
+                #for node in arch.iterfind(".//field[@name='plan_2']"):
+                #   node.set("readonly", "1")
                     
                 res['views']['form']['arch'] = etree.tostring(arch, encoding='unicode')
         if res['views'].get('list'):
@@ -41,14 +46,14 @@ class ProjectTask(models.Model):
                 arch = etree.fromstring(arch)  
                 for node in arch.iterfind(".//field[@name='plan_1']"):
                     node.set("readonly", "1")
-                for node in arch.iterfind(".//field[@name='plan_2']"):
-                    node.set("readonly", "1")
+                #for node in arch.iterfind(".//field[@name='plan_2']"):
+                #    node.set("readonly", "1")
 
                 res['views']['list']['arch'] = etree.tostring(arch, encoding='unicode')
         return res
 
     #PG-10-Sub-tasks-list-changes
-    @api.depends('child_ids.actual_1', 'child_ids.actual_2', 'child_ids.write_date', 'rollup_type')
+    @api.depends('child_ids.actual_1', 'child_ids.write_date', 'rollup_type')
     def _compute_roll_up_values(self):
         for task in self:
             if not task.child_ids:
@@ -58,18 +63,18 @@ class ProjectTask(models.Model):
             if not sub_tasks:
                 continue  
             if task.rollup_type == '1':
-                task.actual_1 = sum(sub_tasks.mapped('actual_1')) / len(sub_tasks) if sub_tasks else 0.0
-                task.actual_2 = sum(sub_tasks.mapped('actual_2')) / len(sub_tasks) if sub_tasks else 0.0
+                task.actual_1 = "{:.2f}".format(sum(sub_tasks.mapped('actual_1')) / len(sub_tasks) if sub_tasks else 0.0)
+                #task.actual_2 = sum(sub_tasks.mapped('actual_2')) / len(sub_tasks) if sub_tasks else 0.0
 
             elif task.rollup_type == '2':
-                task.actual_1 = sum(sub_tasks.mapped('actual_1'))
-                task.actual_2 = sum(sub_tasks.mapped('actual_2'))
+                task.actual_1 = "{:.2f}".format(sum(sub_tasks.mapped('actual_1')))
+                #task.actual_2 = sum(sub_tasks.mapped('actual_2'))
 
             elif task.rollup_type in ('3', '4'):
                 latest_task = sub_tasks.sorted(lambda t: t.write_date, reverse=True)[:1]
                 if latest_task:
                     task.actual_1 = latest_task.actual_1 or 0.0
-                    task.actual_2 = latest_task.actual_2 or 0.0
+                    #task.actual_2 = latest_task.actual_2 or 0.0
 
             # Set parent task status to the status of the most recently updated sub-task
             last_updated_task = sub_tasks.sorted(lambda t: t.write_date, reverse=True)[:1]
@@ -83,19 +88,18 @@ class ProjectTask(models.Model):
 
     #PG-10-Sub-tasks-list-changes
     def write(self, vals):
-        """ Detect changes in actual_1, actual_2, and status fields to update parent task """
-        fields_to_check = {'actual_1', 'actual_2', 'task_status'}
+        """ Detect changes in actual_1, and status fields to update parent task """
+        fields_to_check = {'actual_1', 'task_status'}
         tasks_to_update = self.filtered(lambda task: any(field in vals for field in fields_to_check))
         result = super(ProjectTask, self).write(vals)
-        self.env.cr.commit()
-
-        # Trigger parent update after saving sub-task changes
-        for task in tasks_to_update:
-            if task.parent_id:
-                task.parent_id._compute_roll_up_values()
-
+        if tasks_to_update:
+            self.env.cr.commit()
+            if self.project_type =='goals':
+                # Trigger parent update after saving sub-task changes
+                for task in tasks_to_update:
+                    if task.parent_id:
+                        task.parent_id._compute_roll_up_values()
         return result
-
 
      #PG-16-Tasks-and-Sub-tasks-Expanded-View
     def action_open_subtasks(self):
@@ -119,5 +123,3 @@ class ProjectTask(models.Model):
 
 
 
-
-    
