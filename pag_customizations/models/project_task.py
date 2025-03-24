@@ -31,7 +31,7 @@ class ProjectTask(models.Model):
             arch = etree.fromstring(arch)
             user = self.env.user
             # PG-21-Permissions-change
-            if user.has_group('project.group_project_user'):
+            if user.has_group('project.group_project_user') and not user.has_group('project.group_project_manager'):
                 restricted_fields = ['tag_ids', 'milestone_id', 'project_id']
                 for field in restricted_fields:
                     for node in arch.iterfind(f".//field[@name='{field}']"):
@@ -53,7 +53,7 @@ class ProjectTask(models.Model):
             arch = etree.fromstring(arch)
             user = self.env.user
             # PG-21-Permissions-change
-            if user.has_group('project.group_project_user'):
+            if user.has_group('project.group_project_user') and not user.has_group('project.group_project_manager'):
                 restricted_fields = ['tag_ids', 'milestone_id', 'project_id']
                 for field in restricted_fields:
                     for node in arch.iterfind(f".//field[@name='{field}']"):
@@ -105,10 +105,10 @@ class ProjectTask(models.Model):
     #PG-10-Sub-tasks-list-changes
     def write(self, vals):
         # PG-21-Permissions-change
-        if self.env.user.has_group('project.group_project_user'):
+        if self.env.user.has_group('project.group_project_user') and not self.env.user.has_group('project.group_project_manager'):
             allowed_fields = {'task_status','plan_1','actual_1','rollup_type'}
             if any(field not in allowed_fields for field in vals.keys()):
-                raise AccessError("You are only allowed to modify the Progress field.")
+                raise AccessError("You are only allowed to modify the Progress fields.")
 
         # Detect changes in actual_1, and status fields to update parent task
         fields_to_check = {'actual_1', 'task_status'}
