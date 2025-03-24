@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields,api,_
 from lxml import etree
+from odoo.exceptions import AccessError
+
 #PAG-2-Project-Tasks-Changes
 class ProjectTask(models.Model):
     _inherit = 'project.task'
@@ -26,9 +28,16 @@ class ProjectTask(models.Model):
         res = super().get_views(views, options)
         if res['views'].get('form'):
             arch = res['views']['form']['arch']
+            arch = etree.fromstring(arch)
             user = self.env.user
+            # PG-21-Permissions-change
+            if user.has_group('project.group_project_user'):
+                restricted_fields = ['tag_ids', 'milestone_id', 'project_id']
+                for field in restricted_fields:
+                    for node in arch.iterfind(f".//field[@name='{field}']"):
+                        node.set("options", "{'no_create': True}")
+
             if not user.has_group('pag_customizations.group_user_plans'):
-                arch = etree.fromstring(arch)  
                 for node in arch.iterfind(".//field[@name='child_ids']/list/field[@name='plan_1']"):
                     node.set("readonly", "1")
                 #for node in arch.iterfind(".//field[@name='child_ids']/list/field[@name='plan_2']"):
@@ -38,18 +47,25 @@ class ProjectTask(models.Model):
                 #for node in arch.iterfind(".//field[@name='plan_2']"):
                 #   node.set("readonly", "1")
                     
-                res['views']['form']['arch'] = etree.tostring(arch, encoding='unicode')
+            res['views']['form']['arch'] = etree.tostring(arch, encoding='unicode')
         if res['views'].get('list'):
             arch = res['views']['list']['arch']
+            arch = etree.fromstring(arch)
             user = self.env.user
+            # PG-21-Permissions-change
+            if user.has_group('project.group_project_user'):
+                restricted_fields = ['tag_ids', 'milestone_id', 'project_id']
+                for field in restricted_fields:
+                    for node in arch.iterfind(f".//field[@name='{field}']"):
+                        node.set("options", "{'no_create': True}")
+
             if not user.has_group('pag_customizations.group_user_plans'):
-                arch = etree.fromstring(arch)  
                 for node in arch.iterfind(".//field[@name='plan_1']"):
                     node.set("readonly", "1")
                 #for node in arch.iterfind(".//field[@name='plan_2']"):
                 #    node.set("readonly", "1")
 
-                res['views']['list']['arch'] = etree.tostring(arch, encoding='unicode')
+            res['views']['list']['arch'] = etree.tostring(arch, encoding='unicode')
         return res
 
     #PG-10-Sub-tasks-list-changes
@@ -88,7 +104,13 @@ class ProjectTask(models.Model):
 
     #PG-10-Sub-tasks-list-changes
     def write(self, vals):
-        """ Detect changes in actual_1, and status fields to update parent task """
+        # PG-21-Permissions-change
+        if self.env.user.has_group('project.group_project_user'):
+            allowed_fields = {'task_status','plan_1','actual_1','rollup_type'}
+            if any(field not in allowed_fields for field in vals.keys()):
+                raise AccessError("You are only allowed to modify the Progress field.")
+
+        # Detect changes in actual_1, and status fields to update parent task
         fields_to_check = {'actual_1', 'task_status'}
         tasks_to_update = self.filtered(lambda task: any(field in vals for field in fields_to_check))
         result = super(ProjectTask, self).write(vals)
