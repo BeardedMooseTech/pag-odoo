@@ -15,7 +15,7 @@ Module containing customizations for Precision Aviation Group
             "data/progress_task.xml",
             "data/plan_group.xml",
             "views/progress_task.xml",
-            "views/project_task_view.xml",
+            #"views/project_task_view.xml",
             "views/project_type_view.xml",
             "views/project_project_view.xml",
             "report/scoreboard.xml"
