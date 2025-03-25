@@ -10,7 +10,8 @@ class ProjectTask(models.Model):
     task_status = fields.Many2one('progress.task',string='Status',tracking=True) 
     actual_1 = fields.Float(string="Actual",tracking=True)
     actual_2 = fields.Float(string="Actual 2",tracking=True)
-    plan_1 = fields.Char(string="Plan",tracking=True)
+    # PG-22-View-as-if-based-metric
+    plan_1 = fields.Float(string="Plan",tracking=True)
     #PG-18-Make-Roll-up-Type-not-required-on-parent-level
     rollup_type = fields.Selection([('1','Avg'),('2','YTD'),('3','Last Actual (Numeric)'),('4','Last Actual (Percentage)')],string="Rollup Type",tracking=True)
     plan_2 = fields.Char(string="Plan 2",tracking=True)
@@ -18,7 +19,7 @@ class ProjectTask(models.Model):
     #PG-24-Create-Initiative-field-on-the-project-level
     initiative_id = fields.Many2one('project.type',related='project_id.initiative_id',string='Initiative',store=True)
     project_type = fields.Selection(related='project_id.project_type',string='Project Type',store=True)
-    
+
 
     #PG-4-Custom-security-on-Planned-fields-on-Progress-tab
     @api.model
@@ -100,4 +101,3 @@ class ProjectTask(models.Model):
                     if task.parent_id:
                         task.parent_id._compute_roll_up_values()
         return result
-
