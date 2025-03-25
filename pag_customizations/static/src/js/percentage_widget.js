@@ -19,7 +19,6 @@ class PercentageField extends FloatField {
         if (formatted == null || formatted === "") {
             return formatted;
         }
-        console.log(">>>>>>>>>>>>>>>>",formatted)
         const num = parseFloat(formatted);
         if (this.props.record.data.rollup_type === '4') {
             return `${num} %`;  // % appears after the number in readonly

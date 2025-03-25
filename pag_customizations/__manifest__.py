@@ -27,7 +27,7 @@ Module containing customizations for Precision Aviation Group
             "pag_customizations/static/src/xml/list.xml",
             "pag_customizations/static/src/js/list_renderer.js",
             "pag_customizations/static/src/js/project_controller.js",
-            "pag_customizations/static/src/js/form_renderer.js",
+            "pag_customizations/static/src/js/percentage_widget.js",
         ],
     },
     'license': 'LGPL-3',
