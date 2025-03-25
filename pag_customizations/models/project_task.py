@@ -14,7 +14,7 @@ class ProjectTask(models.Model):
     plan_1 = fields.Float(string="Plan",tracking=True)
     #PG-18-Make-Roll-up-Type-not-required-on-parent-level
     rollup_type = fields.Selection([('1','Avg'),('2','YTD'),('3','Last Actual (Numeric)'),('4','Last Actual (Percentage)')],string="Rollup Type",tracking=True)
-    plan_2 = fields.Char(string="Plan 2",tracking=True)
+    plan_2 = fields.Float(string="Plan 2",tracking=True)
     status_id = fields.Char(related='task_status.name',string="Status Name")
     #PG-24-Create-Initiative-field-on-the-project-level
     initiative_id = fields.Many2one('project.type',related='project_id.initiative_id',string='Initiative',store=True)
@@ -101,3 +101,23 @@ class ProjectTask(models.Model):
                     if task.parent_id:
                         task.parent_id._compute_roll_up_values()
         return result
+
+     #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    def action_open_subtasks(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Subtasks',
+            'res_model': 'project.task',
+            'view_mode': 'tree,form',
+            'domain': [('parent_id', '=', self.id)],
+        }
+        
+    #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    def action_open_task(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Task',
+            'res_model': 'project.task',
+            'view_mode': 'form',
+            'res_id': self.id,
+        }
