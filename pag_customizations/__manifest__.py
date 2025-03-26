@@ -9,7 +9,7 @@ Module containing customizations for Precision Aviation Group
     'author': "Beareded Moose Technologies",
     'website': "https://www.beardedmoosetech.com",
     'category': 'Project',
-    'depends': ['project','web'],
+    'depends': ['project','web','web_hierarchy'],
     'data': [
             "security/ir.model.access.csv",
             "data/progress_task.xml",
