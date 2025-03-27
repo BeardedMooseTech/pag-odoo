@@ -67,13 +67,23 @@
             </t>
         </t>
     </template>
-
+    <record id="paperformat_landscape" model="report.paperformat">
+        <field name="name">Landscape Format</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+    </record>
     <record id="pag_scoreboard_report_action" model="ir.actions.report">
         <field name="name">Scorecard Report</field>
         <field name="model">project.task</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">pag_customizations.report_pag_scoreboard</field>
         <field name="binding_model_id" ref="project.model_project_task"/>
+        <field name="paperformat_id" ref="pag_customizations.paperformat_landscape"/>
     </record>
      <menuitem
         name="Scorecard Report"
