@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--PG-17-Scorecard-Proof-of-Concept-->
+    <template id="report_pag_scoreboard">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h1>Scorecard Report 
+                    </h1>
+                 <table class="table table-bordered" style="border-collapse: collapse;">
+                        <thead style="border: 1px solid black;">
+                            <tr>
+                                <th style="text-align: center;">TARGET TO IMPROVE</th>
+                                <th style="text-align: center;">Owner</th>
+                                <th></th> <!-- Empty column -->
+                                <th style="text-align: center;">JAN</th>
+                                <th style="text-align: center;">FEB</th>
+                                <th style="text-align: center;">MAR</th>
+                                <th style="text-align: center;">APR</th>
+                                <th style="text-align: center;">MAY</th>
+                                <th style="text-align: center;">JUN</th>
+                                <th style="text-align: center;">JUL</th>
+                                <th style="text-align: center;">AUG</th>
+                                <th style="text-align: center;">SEP</th>
+                                <th style="text-align: center;">OCT</th>
+                                <th style="text-align: center;">NOV</th>
+                                <th style="text-align: center;">DEC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="parent_tasks" t-as="task">
+                                <tr>
+                                    <td t-esc="task['task_name']" style="text-align: center;font-size:12px;"/>
+                                    <td style="text-align: center;font-size:12px;">
+                                        <t t-esc="task['owner']"/>
+                                    </td> 
+                                    <td style="padding: 0;font-size:12px;">
+                                        <!-- Plan Section -->
+                                        <div style="text-align: center; border-bottom: 1px solid black; width: 100%; padding: 0;">
+                                            Plan
+                                        </div>
+                                        <div style="text-align: center; padding: 0;">
+                                            Actual
+                                        </div>
+                                    </td>
+
+                                    <t t-foreach="task['months_data'].items()" t-as="month">
+                                        <td style="padding: 0;text-align: center;font-size:12px;">
+                                            <!-- Plan Section -->
+                                            <div style="text-align: center; border-bottom: 1px solid black; width: 100%; padding: 0; text-align: center;">
+                                                <t t-esc="month[1]['plan']"/>
+                                            </div>
+                                           
+                                            <t t-if="float(month[1]['actual']) &gt; float(month[1]['plan'])">
+                                                <div style="text-align: center;padding: 0;background-color: green;" t-esc="month[1]['actual']"/>
+                                            </t>
+                                             <t t-if="float(month[1]['actual']) &lt; float(month[1]['plan'])">
+                                                <div style="text-align: center;padding: 0;background-color: red;" t-esc="month[1]['actual']"/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+    <record id="paperformat_landscape" model="report.paperformat">
+        <field name="name">Landscape Format</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+    </record>
+    <record id="pag_scoreboard_report_action" model="ir.actions.report">
+        <field name="name">Scorecard Report</field>
+        <field name="model">project.task</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pag_customizations.report_pag_scoreboard</field>
+        <field name="binding_model_id" ref="project.model_project_task"/>
+        <field name="paperformat_id" ref="pag_customizations.paperformat_landscape"/>
+    </record>
+     <menuitem
+        name="Scorecard Report"
+        id="menu_project_management_scoreboard"
+        action="pag_scoreboard_report_action"
+        parent="project.menu_project_report"
+    />
+</odoo>
