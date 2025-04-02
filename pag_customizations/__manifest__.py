@@ -12,6 +12,7 @@ Module containing customizations for Precision Aviation Group
     'depends': ['project','web','web_hierarchy'],
     'data': [
             "security/ir.model.access.csv",
+            "security/security.xml",
             "data/progress_task.xml",
             "data/plan_group.xml",
             "views/progress_task.xml",
