@@ -33,10 +33,16 @@ class ProjectTask(models.Model):
             user = self.env.user
             # PG-21-Permissions-change
             if user.has_group('project.group_project_user') and not user.has_group('project.group_project_manager'):
-                restricted_fields = ['tag_ids', 'milestone_id', 'project_id']
-                for field in restricted_fields:
-                    for node in arch.iterfind(f".//field[@name='{field}']"):
-                        node.set("options", "{'no_create': True}")
+                for node in arch.xpath("//field"):
+                    node.set("readonly", "1")
+                for node in arch.iterfind(".//field[@name='task_status']"):
+                    node.set("readonly", "0")
+                for node in arch.iterfind(".//field[@name='plan_1']"):
+                    node.set("readonly", "0")
+                for node in arch.iterfind(".//field[@name='actual_1']"):
+                    node.set("readonly", "0")
+                for node in arch.iterfind(".//field[@name='rollup_type']"):
+                    node.set("readonly", "0")
 
             if not user.has_group('pag_customizations.group_user_plans'):
                 for node in arch.iterfind(".//field[@name='child_ids']/list/field[@name='plan_1']"):
@@ -47,7 +53,7 @@ class ProjectTask(models.Model):
                     node.set("readonly", "1")
                 #for node in arch.iterfind(".//field[@name='plan_2']"):
                 #   node.set("readonly", "1")
-                    
+                     
             res['views']['form']['arch'] = etree.tostring(arch, encoding='unicode')
         if res['views'].get('list'):
             arch = res['views']['list']['arch']
@@ -55,10 +61,16 @@ class ProjectTask(models.Model):
             user = self.env.user
             # PG-21-Permissions-change
             if user.has_group('project.group_project_user') and not user.has_group('project.group_project_manager'):
-                restricted_fields = ['tag_ids', 'milestone_id', 'project_id']
-                for field in restricted_fields:
-                    for node in arch.iterfind(f".//field[@name='{field}']"):
-                        node.set("options", "{'no_create': True}")
+                for node in arch.xpath("//field"):
+                    node.set("readonly", "1")
+                for node in arch.iterfind(".//field[@name='task_status']"):
+                    node.set("readonly", "0")
+                for node in arch.iterfind(".//field[@name='plan_1']"):
+                    node.set("readonly", "0")
+                for node in arch.iterfind(".//field[@name='actual_1']"):
+                    node.set("readonly", "0")
+                for node in arch.iterfind(".//field[@name='rollup_type']"):
+                    node.set("readonly", "0")
 
             if not user.has_group('pag_customizations.group_user_plans'):
                 for node in arch.iterfind(".//field[@name='plan_1']"):
@@ -143,3 +155,19 @@ class ProjectTask(models.Model):
             'view_mode': 'form',
             'res_id': self.id,
         }
+
+    #PG-21-Permissions-change
+    def hide_record_rule(self):
+        rule_id= self.env['ir.rule'].search([('active','=',True),('name','=','Project: See private tasks')])
+        if rule_id:
+            rule_id.sudo().write({'active':False})
+        rule_id= self.env['ir.rule'].search([('active','=',True),('name','=','Project: Portal User Restriction')])
+        if rule_id:
+            rule_id.sudo().write({'active':False})
+        rule_id= self.env['ir.rule'].search([('active','=',True),('name','=','Project: portal users: portal and following')])
+        if rule_id:
+            rule_id.sudo().write({'active':False})
+        rule_id= self.env['ir.rule'].search([('active','=',True),('name','=','Project: employees: following required for follower-only projects')])
+        if rule_id:
+            rule_id.sudo().write({'active':False})    
+        return True
