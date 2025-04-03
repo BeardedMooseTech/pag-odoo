@@ -158,16 +158,8 @@ class ProjectTask(models.Model):
 
     #PG-21-Permissions-change
     def hide_record_rule(self):
-        rule_id= self.env['ir.rule'].search([('active','=',True),('name','=','Project: See private tasks')])
+        rule_id= self.env['ir.rule'].search([('active','=',True),('name','in',['Project: See private tasks','Project: Portal User Restriction','Project: portal users: portal and following','Project: employees: following required for follower-only projects','Project/Task: employees: follow required for follower-only projects'])])
         if rule_id:
             rule_id.sudo().write({'active':False})
-        rule_id= self.env['ir.rule'].search([('active','=',True),('name','=','Project: Portal User Restriction')])
-        if rule_id:
-            rule_id.sudo().write({'active':False})
-        rule_id= self.env['ir.rule'].search([('active','=',True),('name','=','Project: portal users: portal and following')])
-        if rule_id:
-            rule_id.sudo().write({'active':False})
-        rule_id= self.env['ir.rule'].search([('active','=',True),('name','=','Project: employees: following required for follower-only projects')])
-        if rule_id:
-            rule_id.sudo().write({'active':False})    
         return True
+        
