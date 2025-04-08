@@ -19,7 +19,8 @@ Module containing customizations for Precision Aviation Group
             "views/project_task_view.xml",
             "views/project_type_view.xml",
             "views/project_project_view.xml",
-            "report/scoreboard.xml"
+            "report/scoreboard.xml",
+            "wizard/scoreboard_wizard.xml"
     ],
     'installable': True,
     'application': False,
