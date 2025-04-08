@@ -2,3 +2,7 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_project_status,access.progress.status,model_progress_task,base.group_user,1,1,1,1
 access_project_type,access.project.type,model_project_type,base.group_user,1,1,1,1
 access_scoreboard_wizard,access.scoreboard.wizard,model_scoreboard_wizard,base.group_user,1,1,1,0
+
+project.access_project_task,project.task,project.model_project_task,project.group_project_user,1,1,0,0
+access_project_task_manager,project.task,project.model_project_task,project.group_project_manager,1,1,1,1
+project_todo.access_task_on_partner,project.task on partners,project.model_project_task,base.group_user,1,1,0,0
