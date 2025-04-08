@@ -1,0 +1,34 @@
+from odoo import models, fields, api
+
+#PG-17-Scorecard-Proof-of-Concept
+class ScoreboardWizard(models.TransientModel):
+    _name = 'scoreboard.wizard'
+    _description = 'Scoreboard Wizard'
+
+    task = fields.Many2one(
+        'project.task',
+        string="Parent Task",
+        domain="[('parent_id', '=', False)]",
+        required=True
+    )
+
+    child_task_ids = fields.One2many(
+        'project.task',
+        'parent_id',
+        string="Child Tasks",
+        compute='_compute_child_tasks',
+        store=False
+    )
+
+    @api.depends('task')
+    def _compute_child_tasks(self):
+        for wizard in self:
+            if wizard.task:
+                wizard.child_task_ids = self.env['project.task'].search([
+                    ('parent_id', '=', wizard.task.id)
+                ])
+            else:
+                wizard.child_task_ids = self.env['project.task']
+
+    def action_print(self): 
+        return self.env.ref('pag_customizations.action_pag_scoreboard_report').report_action(self)
