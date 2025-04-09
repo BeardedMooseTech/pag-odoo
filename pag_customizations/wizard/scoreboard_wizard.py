@@ -23,6 +23,7 @@ class ScoreboardWizard(models.TransientModel):
     @api.depends('task')
     def _compute_child_tasks(self):
         for wizard in self:
+            print("wizard",wizard,wizard.task)
             if wizard.task:
                 wizard.child_task_ids = self.env['project.task'].search([
                     ('parent_id', '=', wizard.task.id)
