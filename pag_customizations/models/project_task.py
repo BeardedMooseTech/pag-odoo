@@ -10,10 +10,10 @@ class ProjectTask(models.Model):
 
 
     task_status = fields.Many2one('progress.task',string='Status',tracking=True) 
-    actual_1 = fields.Float(string="Actual",tracking=True)
+    actual_1 = fields.Float(string="Actual",tracking=True,digits=(16, 4))
     actual_2 = fields.Float(string="Actual 2",tracking=True)
     # PG-22-View-as-if-based-metric
-    plan_1 = fields.Float(string="Plan",tracking=True)
+    plan_1 = fields.Float(string="Plan",tracking=True,digits=(16, 4))
     #PG-18-Make-Roll-up-Type-not-required-on-parent-level
     rollup_type = fields.Selection([('1','Avg'),('2','YTD'),('3','Last Actual (Numeric)'),('4','Last Actual (Percentage)')],string="Rollup Type",tracking=True)
     plan_2 = fields.Float(string="Plan 2",tracking=True)
@@ -21,7 +21,7 @@ class ProjectTask(models.Model):
     #PG-24-Create-Initiative-field-on-the-project-level
     initiative_id = fields.Many2one('project.type',related='project_id.initiative_id',string='Initiative',store=True)
     project_type = fields.Selection(related='project_id.project_type',string='Project Type',store=True)
-
+    wizard_id = fields.Many2one('project.task',string="Wizard ID")
 
     #PG-4-Custom-security-on-Planned-fields-on-Progress-tab
     @api.model
@@ -92,11 +92,11 @@ class ProjectTask(models.Model):
             if not sub_tasks:
                 continue  
             if task.rollup_type == '1':
-                task.actual_1 = "{:.2f}".format(sum(sub_tasks.mapped('actual_1')) / len(sub_tasks) if sub_tasks else 0.0)
+                task.actual_1 = sum(sub_tasks.mapped('actual_1')) / len(sub_tasks) if sub_tasks else 0.0
                 #task.actual_2 = sum(sub_tasks.mapped('actual_2')) / len(sub_tasks) if sub_tasks else 0.0
 
             elif task.rollup_type == '2':
-                task.actual_1 = "{:.2f}".format(sum(sub_tasks.mapped('actual_1')))
+                task.actual_1 = sum(sub_tasks.mapped('actual_1'))
                 #task.actual_2 = sum(sub_tasks.mapped('actual_2'))
 
             elif task.rollup_type in ('3', '4'):
