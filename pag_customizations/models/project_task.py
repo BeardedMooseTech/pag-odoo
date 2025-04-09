@@ -21,6 +21,8 @@ class ProjectTask(models.Model):
     #PG-24-Create-Initiative-field-on-the-project-level
     initiative_id = fields.Many2one('project.type',related='project_id.initiative_id',string='Initiative',store=True)
     project_type = fields.Selection(related='project_id.project_type',string='Project Type',store=True)
+    #PG-30-Unable-to-create-a-Task-in-the-Projects-module
+    wizard_id = fields.Many2one('project.task',string="Wizard ID")
 
 
     #PG-4-Custom-security-on-Planned-fields-on-Progress-tab

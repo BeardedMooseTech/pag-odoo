@@ -14,7 +14,7 @@ class ScoreboardWizard(models.TransientModel):
 
     child_task_ids = fields.One2many(
         'project.task',
-        'parent_id',
+        'wizard_id',
         string="Child Tasks",
         compute='_compute_child_tasks',
         store=False
@@ -28,7 +28,7 @@ class ScoreboardWizard(models.TransientModel):
                     ('parent_id', '=', wizard.task.id)
                 ])
             else:
-                wizard.child_task_ids = self.env['project.task']
+                wizard.child_task_ids = []
 
     def action_print(self): 
         return self.env.ref('pag_customizations.action_pag_scoreboard_report').report_action(self)
