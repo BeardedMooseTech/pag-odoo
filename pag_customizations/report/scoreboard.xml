@@ -1,78 +1,136 @@
 <odoo>
+    <!--PG-17-Scorecard-Proof-of-Concept-->
+    <template id="external_layout_boxed_custom">
+        <t t-foreach="docs" t-as="doc">
+            <div t-attf-class="header o_company_#{doc.company_id.id}_layout">
+                <div class="row mb8">
+                    <div class="col-4"></div>
+                    <div class="col-8 text-end mb4">
+                        <div name="company_address" class="float-end mb4">
+                            <img t-if="doc.company_id.logo" class="o_company_logo_big" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div t-attf-class="article o_report_layout_boxed o_table_boxed o_company_#{doc.company_id.id}_layout o_snail_mail {{'o_report_layout_background' if doc.company_id.layout_background != 'Blank' else ''}}"
+             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % doc.company_id.layout_background_image.decode('utf-8') if doc.company_id.layout_background_image and doc.company_id.layout_background == 'Custom' else
+                           '/base/static/img/demo_logo_report.png' if doc.company_id.layout_background == 'Demo logo' else ''}});"
+             t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-call="web.address_layout"/>
+                <h2 t-out="layout_document_title"/>
+                <t t-out="0"/>
+            </div>
+            <div t-attf-class="footer o_company_#{doc.company_id.id}_layout {{report_type != 'pdf' and 'mt-auto'}}">
+                <div class="o_footer_content row border-top pt-2">
+                    <div class="col-8"></div>
+                    <div class="col-4 text-end">
+                        <span t-if="report_type == 'pdf'" class="text-muted">Page 
+                            <span class="page"/> / 
+                            <span class="topage"/></span>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
     <template id="report_pag_scoreboard">
         <t t-call="web.html_container">
-            <t t-call="web.external_layout">
+            <t t-call="pag_customizations.external_layout_boxed_custom">
                 <div class="page">
-                    <h1 style="text-align: center;">Scorecard Report for 
-                        <t t-out="docs.task.name"/>
-                    </h1>
-                    <table class="table table-bordered" style="border-collapse: collapse; width: 100%;border: 1px solid black;">
-                        <thead>
-                            <tr style="border: 1px solid black;">
-                                <th style="text-align: center;">TARGET TO IMPROVE</th>
-                                <th style="text-align: center;">Owner</th>
-                                <th></th>
-                                <th style="text-align: center;">JAN</th>
-                                <th style="text-align: center;">FEB</th>
-                                <th style="text-align: center;">MAR</th>
-                                <th style="text-align: center;">APR</th>
-                                <th style="text-align: center;">MAY</th>
-                                <th style="text-align: center;">JUN</th>
-                                <th style="text-align: center;">JUL</th>
-                                <th style="text-align: center;">AUG</th>
-                                <th style="text-align: center;">SEP</th>
-                                <th style="text-align: center;">OCT</th>
-                                <th style="text-align: center;">NOV</th>
-                                <th style="text-align: center;">DEC</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-set="months" t-value="['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']"/>
-                            <t t-foreach="docs" t-as="doc">
+                    <t t-foreach="docs" t-as="doc">
+                        <h1 style="text-align: center;">Scorecard Report for 
+            
+                            <t t-out="doc.task.name"/>
+                        </h1>
+                        <table class="table table-bordered" style="border-collapse: collapse; width: 100%; border: 1px solid black; page-break-inside: avoid; page-break-after: auto;">
+                            <thead>
+                                <tr style="background-color: rgb(33, 126, 213); color: white;">
+                                    <th style="text-align: left; border-right: 1px solid black;">TARGET TO IMPROVE</th>
+                                    <th></th>
+                                    <t t-set="months" t-value="['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']"/>
+                                    <t t-foreach="months" t-as="month">
+                                        <th style="text-align: center; border-right: 1px solid black;">
+                                            <t t-esc="month"/>
+                                        </th>
+                                    </t>
+                                    <th style="text-align: center; border-right: 1px solid black;">YTD</th>
+                                </tr>
+                            </thead>
+                            <tbody style="page-break-inside: avoid; page-break-after: auto;">
                                 <t t-foreach="doc.child_task_ids" t-as="subtask">
-                                    <!-- Plan row -->
-                                    <tr style="text-align: center;vertical-align: top !important;border: 1px solid black;" >
-                                        <td rowspan="2" style="text-align: center; font-size: 14px;">
+                                    <!-- PLAN ROW -->
+                                    <tr style="border: 1px solid black;page-break-inside: avoid; page-break-after: auto; ">
+                                        <td rowspan="2" style="text-align: left; word-wrap: break-word; white-space: normal; width: 100px; border-right: 1px solid black;">
                                             <t t-esc="subtask.name"/>
                                         </td>
-                                        <td rowspan="2" style="text-align: center; font-size: 13px;">
-                                            <t t-esc="(doc.task.name).upper()"/>
+                                        <td style="text-align: left; border-right: 1px solid black;">Plan</td>
+                                        <t t-set="ytd_plan" t-value="0"/>
+                                        <t t-foreach="months" t-as="month">
+                                            <t t-set="month_task" t-value="subtask.child_ids.filtered(lambda m: month.lower() in m.name.lower())"/>
+                                            <t t-set="plan_val" t-value="month_task[0].plan_1 if month_task else 0"/>
+                                            <t t-set="actual_val" t-value="month_task[0].actual_1 if month_task else 0"/>
+                                            <t t-set="ytd_plan" t-value="ytd_plan + (plan_val if actual_val else 0)"/>
+                                            <td style="text-align: center; font-size: 13px; border-right: 1px solid black;"
+                                t-attf-style="background-color: #{'lightgray' if not actual_val else ''}; color: #{'#999' if not actual_val else 'black'};">
+                                                <t t-if="month_task">
+                                                    <t t-if="month_task[0].rollup_type == '4'">
+                                                        <t t-if="plan_val">
+                                                            <t t-esc="'%.2f' % (plan_val or 0)"/> %
+                                    </t>
+                                                        <t t-else="">
+                                                            <t t-esc="plan_val"/></t>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-esc="int(plan_val or 0)"/></t>
+                                                </t>
+                                                <t t-if="not month_task">0</t>
+                                            </td>
+                                        </t>
+                                        <td style="text-align: center; font-size: 13px; border-left: 1px solid black; border-right: 1px solid black;">
+                                            <t t-esc="ytd_plan"/>
                                         </td>
-                                        <td style="text-align: center;vertical-align: top !important;padding-top: 5px;">Plan</td>
-                                        <t t-foreach="months" t-as="month_name">
-                                            <td style="text-align: center; font-size: 13px;vertical-align: top !important; ">
-                                                <t t-set="month_task" t-value="subtask.child_ids.filtered(lambda m: month_name.lower() in m.name.lower())"/>
-                                                <t t-if="month_task">
-                                                    <t style="text-align: center; font-size: 13px;vertical-align: top !important;" t-esc="month_task[0].plan_1 or 0"/></t>
-                                                <t style="text-align: center; font-size: 13px;vertical-align: top !important;" t-if="not month_task">0</t>
-                                            </td>
-                                        </t>
                                     </tr>
-                                    <!-- Actual row -->
-                                    <tr>
-                                        <td style="text-align: center;vertical-align: top !important;padding-top: 5px;">Actual</td>
-                                        <t t-foreach="months" t-as="month_name">
-                                            <td style="text-align: center; font-size: 13px;
-                       color: white;vertical-align: top; "
-                t-attf-style="background-color: #{'green' if (subtask.child_ids.filtered(lambda m: month_name.lower() in m.name.lower())[0].actual_1 or 0) &gt;= (subtask.child_ids.filtered(lambda m: month_name.lower() in m.name.lower())[0].plan_1 or 0) else 'red'};text-align: center; font-size: 13px;
-                       color: white;vertical-align: top;">
-                                                <t t-set="month_task" t-value="subtask.child_ids.filtered(lambda m: month_name.lower() in m.name.lower())"/>
+                                    <!-- ACTUAL ROW -->
+                                    <tr style="border: 1px solid black;page-break-inside: avoid; page-break-after: auto;">
+                                        <td style="text-align: left; border-right: 1px solid black;">Actual</td>
+                                        <t t-set="ytd_actual" t-value="0"/>
+                                        <t t-foreach="months" t-as="month">
+                                            <t t-set="month_task" t-value="subtask.child_ids.filtered(lambda m: month.lower() in m.name.lower())"/>
+                                            <t t-set="plan_val" t-value="month_task[0].plan_1 if month_task else 0"/>
+                                            <t t-set="actual_val" t-value="month_task[0].actual_1 if month_task else 0"/>
+                                            <t t-set="ytd_actual" t-value="ytd_actual + actual_val"/>
+                                            <td style="text-align: center; font-size: 13px; border-right: 1px solid black;"
+                                t-attf-style="background-color: #{'green' if actual_val >= plan_val else 'red'}; color: white;">
                                                 <t t-if="month_task">
-                                                    <t style="text-align: center; font-size: 13px;vertical-align: top !important;" t-esc="month_task[0].actual_1 or 0"/></t>
-                                                <t style="text-align: center; font-size: 13px;vertical-align: top !important;" t-if="not month_task">0</t>
+                                                    <t t-if="month_task[0].rollup_type == '4'">
+                                                        <t t-if="actual_val">
+                                                            <t t-esc="'%.2f' % (actual_val or 0)"/> %
+                                         </t>
+                                                        <t t-else="">
+                                                            <t t-esc="actual_val"/></t>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-esc="int(actual_val or 0)"/></t>
+                                                </t>
+                                                <t t-if="not month_task">0</t>
                                             </td>
                                         </t>
+                                        <!-- YTD ACTUAL -->
+                                        <td  style="text-align: center;font-size: 13px; border-left: 1px solid black; border-right: 1px solid black;"  t-attf-style="background-color: #{'green' if ytd_actual > ytd_plan else 'red'}; color: white;">
+                                            <t t-esc="ytd_actual"/>
+                                        </td>
                                     </tr>
                                 </t>
-                            </t>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </t>
                 </div>
             </t>
         </t>
     </template>
     <record id="paperformat_pag_landscape" model="report.paperformat">
-        <field name="name">PAU Landscape Format</field>
+        <field name="name">PAG Landscape Format</field>
         <field name="format">A4</field>
         <field name="orientation">Landscape</field>
         <field name="margin_top">52</field>
