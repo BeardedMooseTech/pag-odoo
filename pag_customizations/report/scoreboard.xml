@@ -71,24 +71,37 @@
                                             <t t-set="plan_val" t-value="month_task[0].plan_1 if month_task else 0"/>
                                             <t t-set="actual_val" t-value="month_task[0].actual_1 if month_task else 0"/>
                                             <t t-set="ytd_plan" t-value="ytd_plan + (plan_val if actual_val else 0)"/>
-                                            <td style="text-align: center; font-size: 13px; border-right: 1px solid black;"
+                                            <td style="text-align: center; font-size: 13px; border-right: 1px solid black; vertical-align: middle;"
                                 t-attf-style="background-color: #{'lightgray' if not actual_val else ''}; color: #{'#999' if not actual_val else 'black'};">
                                                 <t t-if="month_task">
                                                     <t t-if="month_task[0].rollup_type == '4'">
                                                         <t t-if="plan_val">
-                                                            <t t-esc="'%.2f' % (plan_val or 0)"/> %
+                                                             <div style="width: 100%; text-align: center;">
+  <t t-esc="'%.2f' % (plan_val)"/> %
+
+  </div>
+                                                           
                                     </t>
+                                
                                                         <t t-else="">
-                                                            <t t-esc="plan_val"/></t>
+                                                            <div style="width: 100%; text-align: center;">
+                                                                <t  t-esc="plan_val"/>
+                                                            </div>
+                                                            
+                                                    </t>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="int(plan_val or 0)"/></t>
+                                                        <div style="width: 100%; text-align: center;">
+                                                                 <t   t-esc="int(plan_val)"/>
+                                                            </div>
+                                                       
                                                 </t>
-                                                <t t-if="not month_task">0</t>
+                                            </t>
+                                                <t t-elif="not month_task">0</t>
                                             </td>
                                         </t>
-                                        <td style="text-align: center; font-size: 13px; border-left: 1px solid black; border-right: 1px solid black;">
-                                            <t t-esc="ytd_plan"/>
+                                        <td style="text-align: center; font-size: 13px; border-left: 1px solid black; border-right: 1px solid black;vertical-align: middle;">
+                                            <t style="text-align: center;" t-esc="ytd_plan"/>
                                         </td>
                                     </tr>
                                     <!-- ACTUAL ROW -->
@@ -100,25 +113,42 @@
                                             <t t-set="plan_val" t-value="month_task[0].plan_1 if month_task else 0"/>
                                             <t t-set="actual_val" t-value="month_task[0].actual_1 if month_task else 0"/>
                                             <t t-set="ytd_actual" t-value="ytd_actual + actual_val"/>
-                                            <td style="text-align: center; font-size: 13px; border-right: 1px solid black;"
+                                            <td style="text-align: center; font-size: 13px; border-right: 1px solid black;vertical-align: middle;"
                                 t-attf-style="background-color: #{'green' if actual_val >= plan_val else 'red'}; color: white;">
                                                 <t t-if="month_task">
                                                     <t t-if="month_task[0].rollup_type == '4'">
                                                         <t t-if="actual_val">
-                                                            <t t-esc="'%.2f' % (actual_val or 0)"/> %
+                                                            <div style="width: 100%; text-align: center;">
+                                                            <t  t-esc="'%.2f' % (actual_val)"/> %
+                                                        </div>
                                          </t>
                                                         <t t-else="">
-                                                            <t t-esc="actual_val"/></t>
+                                                            <div style="width: 100%; text-align: center;">
+                                                            <t style="text-align: center;" t-esc="actual_val"/>
+                                                                </div>
+                                                            </t>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="int(actual_val or 0)"/></t>
+                                                        <div style="width: 100%; text-align: center;">
+                                                           
+                                                        
+                                                        <t  t-esc="int(actual_val)"/>
+                                                           </div>
+                                                        </t>
                                                 </t>
-                                                <t t-if="not month_task">0</t>
+                                                <t t-if="not month_task">
+                                                    <div style="width: 100%; text-align: center;">
+                                                    0
+                                                </div>
+                                                </t>
                                             </td>
                                         </t>
                                         <!-- YTD ACTUAL -->
-                                        <td  style="text-align: center;font-size: 13px; border-left: 1px solid black; border-right: 1px solid black;"  t-attf-style="background-color: #{'green' if ytd_actual > ytd_plan else 'red'}; color: white;">
-                                            <t t-esc="ytd_actual"/>
+                                        <td  style="text-align: center;font-size: 13px; border-left: 1px solid black; border-right: 1px solid black;vertical-align: middle;"  t-attf-style="background-color: #{'green' if ytd_actual > ytd_plan else 'red'}; color: white;">
+                                             <div style="width: 100%; text-align: center;">
+   <t t-esc="ytd_actual"/>
+  </div>
+                                            
                                         </td>
                                     </tr>
                                 </t>
