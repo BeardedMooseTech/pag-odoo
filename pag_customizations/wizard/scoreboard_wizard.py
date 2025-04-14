@@ -19,6 +19,8 @@ class ScoreboardWizard(models.TransientModel):
         compute='_compute_child_tasks',
         store=False
     )
+    company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company, required=True)
+    
 
     @api.depends('task')
     def _compute_child_tasks(self):
