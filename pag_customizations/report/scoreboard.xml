@@ -3,7 +3,7 @@
     <template id="external_layout_boxed_custom">
         <t t-foreach="docs" t-as="doc">
             <div t-attf-class="header o_company_#{doc.company_id.id}_layout">
-                <table style="width: 100%; margin-bottom: 20px;">
+                <table class="table table-borderless" style="width: 100%; margin-bottom: 20px;">
                     <tr>
                         <td style="text-align: left; vertical-align: middle;">
                             <h1>
@@ -80,20 +80,20 @@
                                                 <t t-if="month_task">
                                                     <t t-if="month_task[0].rollup_type == '4'">
                                                         <t t-if="plan_val">
-                                                            <div style="width: 100%; text-align: center;">
+                                                            <div style="width: 100%; text-align: center;font-size: 13px;">
                                                                 <t t-esc="'%.2f' % (plan_val)"/> %
 
   
                                                             </div>
                                                         </t>
                                                         <t t-else="">
-                                                            <div style="width: 100%; text-align: center;">
+                                                            <div style="width: 100%; text-align: center;font-size: 13px;">
                                                                 <t  t-esc="plan_val"/>
                                                             </div>
                                                         </t>
                                                     </t>
                                                     <t t-else="">
-                                                        <div style="width: 100%; text-align: center;">
+                                                        <div style="width: 100%; text-align: center;font-size: 13px;">
                                                             <t   t-esc="int(plan_val)"/>
                                                         </div>
                                                     </t>
@@ -121,25 +121,25 @@
                                                 <t t-if="month_task">
                                                     <t t-if="month_task[0].rollup_type == '4'">
                                                         <t t-if="actual_val">
-                                                            <div style="width: 100%; text-align: center;">
+                                                            <div style="width: 100%; text-align: center;font-size: 13px;">
                                                                 <t  t-esc="'%.2f' % (actual_val)"/> %
                                                         
                                                             </div>
                                                         </t>
                                                         <t t-else="">
-                                                            <div style="width: 100%; text-align: center;">
+                                                            <div style="width: 100%; text-align: center;font-size: 13px;">
                                                                 <t style="text-align: center;" t-esc="actual_val"/>
                                                             </div>
                                                         </t>
                                                     </t>
                                                     <t t-else="">
-                                                        <div style="width: 100%; text-align: center;">
+                                                        <div style="width: 100%; text-align: center;font-size: 13px;">
                                                             <t  t-esc="int(actual_val)"/>
                                                         </div>
                                                     </t>
                                                 </t>
                                                 <t t-if="not month_task">
-                                                    <div style="width: 100%; text-align: center;">
+                                                    <div style="width: 100%; text-align: center;font-size: 13px;">
                                                     0
                                                 </div>
                                                 </t>
@@ -152,7 +152,7 @@
     else 'background-color: red; color: white;' if ytd_actual and ytd_actual &lt; ytd_plan 
     else '' 
   }">
-                                            <div style="width: 100%; text-align: center;">
+                                            <div style="width: 100%; text-align: center;font-size: 13px;">
                                                 <t t-esc="ytd_actual"/>
                                             </div>
                                         </td>
