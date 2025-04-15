@@ -129,12 +129,16 @@ class ProjectTask(models.Model):
         tasks_to_update = self.filtered(lambda task: any(field in vals for field in fields_to_check))
         result = super(ProjectTask, self).write(vals)
         if tasks_to_update:
-            self.env.cr.commit()
-            if self.project_type =='goals':
-                # Trigger parent update after saving sub-task changes
-                for task in tasks_to_update:
-                    if task.parent_id:
-                        task.parent_id._compute_roll_up_values()
+            #PG-33-Odoo-Server-Savepoint-Error-when-importing-data-on-sub-sub-task
+            try:
+                with self.env.cr.savepoint():
+                    if self.project_type =='goals':
+                    # Trigger parent update after saving sub-task changes
+                        for task in tasks_to_update:
+                            if task.parent_id:
+                                task.parent_id._compute_roll_up_values()
+            except UserError as e:
+                _logger.info(e)
         return result
 
      #PG-16-Tasks-and-Sub-tasks-Expanded-View
