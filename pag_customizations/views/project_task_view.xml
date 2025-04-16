@@ -47,6 +47,8 @@
                              <field name="actual_2"/>-->
                              <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
                             <field name="rollup_type" required="parent_id"/>
+                            <field name="task_id" invisible="1"/>
+                            <field name="related_tasks" invisible="1"/>
                         </group>
                     </page>
                 </xpath>
@@ -233,5 +235,20 @@
                    <attribute name="default_group_by">stage_id</attribute>
                 </list>
             </field>
+        </record> 
+        <!--PG-16-Tasks-and-Sub-tasks-Expanded-View-->
+        <record id="view_task_search_form_project_fsm_base_inherit" model="ir.ui.view">
+            <field name="name">search.pivot.view</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form_project_fsm_base"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='project']" position="after">
+                     <filter string="Parent Task" name="Parent" context="{'group_by': 'parent_id'}"/>
+                      <filter string="Task" name="Task" context="{'group_by': 'task_id'}"/>
+
+                      <filter string="SubTask" name="Subtask" context="{'group_by': 'child_ids'}"/>
+                </xpath>
+            </field>
         </record>
+        
     </odoo>
