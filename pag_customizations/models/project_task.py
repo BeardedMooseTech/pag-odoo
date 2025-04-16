@@ -23,7 +23,50 @@ class ProjectTask(models.Model):
     project_type = fields.Selection(related='project_id.project_type',string='Project Type',store=True)
     #PG-30-Unable-to-create-a-Task-in-the-Projects-module
     wizard_id = fields.Many2one('project.task',string="Wizard ID")
+    #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    related_tasks = fields.Many2many(
+    'project.task',
+    'project_task_related_task_rel',  
+    'task_id',                        
+    'related_task_id', 
+    string='Related Tasks')
+    task_id = fields.Many2one('project.task', string='Tasks', readonly=True)
+    
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        task = super().create(vals_list)
+        #PG-16-Tasks-and-Sub-tasks-Expanded-View
+        for vals in vals_list:
+            if vals.get('child_ids'):
+                task._sync_child_ids_to_m2m()
+                task._sync_m2m_to_child_ids()
+        return task
+
+   
+    #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    def _sync_child_ids_to_m2m(self):
+        for task in self:
+            task.related_tasks = [(6, 0, task.child_ids.ids)]
+
+    #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    def _sync_m2m_to_child_ids(self):
+        for task in self:
+            for subtask in task.related_tasks:
+                if subtask.parent_id.id != task.id:
+                    subtask.parent_id = task
+
+    #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    @api.model
+    def sync_existing_subtasks_to_m2m(self):
+        tasks = self.search([])
+        for task in tasks:
+            task.related_tasks = [(6, 0, task.child_ids.ids)]
+            for subtask in task.related_tasks:
+                if subtask.parent_id.id != task.id:
+                    subtask.parent_id = task
+
+ 
     #PG-4-Custom-security-on-Planned-fields-on-Progress-tab
     @api.model
     def get_views(self, views, options=None):
@@ -139,6 +182,10 @@ class ProjectTask(models.Model):
                                 task.parent_id._compute_roll_up_values()
             except UserError as e:
                 _logger.info(e)
+        #PG-16-Tasks-and-Sub-tasks-Expanded-View
+        if vals.get('child_ids'):
+            self._sync_child_ids_to_m2m()
+            self._sync_m2m_to_child_ids()
         return result
 
      #PG-16-Tasks-and-Sub-tasks-Expanded-View
