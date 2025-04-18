@@ -58,14 +58,14 @@
                                             <t t-esc="month"/>
                                         </th>
                                     </t>
-                                    <th style="text-align: center; border-right: 1px solid black;padding: 4px; color: white; font-weight: 600; white-space: nowrap;">YTD</th>
+                                    <th style="text-align: center; border-right: 1px solid black; color: white; font-weight: 600; white-space: nowrap;">YTD</th>
                                 </tr>
                             </thead>
                             <tbody style="page-break-inside: avoid; page-break-after: auto;">
                                 <t t-foreach="doc.child_task_ids" t-as="subtask">
                                     <!-- PLAN ROW -->
                                     <tr style="border: 1px solid black;page-break-inside: avoid; page-break-after: auto; ">
-                                        <td rowspan="2" style="text-align: left; word-wrap: break-word; white-space: normal; width: 100px; border-right: 1px solid black;width:30%;">
+                                        <td rowspan="2" style="text-align: left; word-wrap: break-word; white-space: normal; width: 100px; border-right: 1px solid black;width:30%;font-size:12px;">
                                             <t t-esc="subtask.name"/>
                                         </td>
                                         <td style="text-align: left; border-right: 1px solid black;">Plan</td>
@@ -102,7 +102,15 @@
                                             </td>
                                         </t>
                                         <td style="text-align: center; font-size: 13px; border-left: 1px solid black; border-right: 1px solid black;vertical-align: middle;">
-                                            <t style="text-align: center;" t-esc="ytd_plan"/>
+                                            <div style="width: 100%; text-align: center;font-size: 13px;">
+                                                <t t-if="ytd_plan % 1 != 0">
+                                                <t t-esc="'%.3f'%(ytd_plan)"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-esc="ytd_plan"/>
+                                                </t>
+                                            </div>
+                                            
                                         </td>
                                     </tr>
                                     <!-- ACTUAL ROW -->
@@ -153,7 +161,12 @@
     else '' 
   }">
                                             <div style="width: 100%; text-align: center;font-size: 13px;">
-                                                <t t-esc="ytd_actual"/>
+                                                <t t-if="ytd_actual % 1 != 0">
+                                                <t t-esc="'%.3f'%(ytd_actual)"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-esc="ytd_actual"/>
+                                                </t>
                                             </div>
                                         </td>
                                     </tr>
