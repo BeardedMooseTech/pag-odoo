@@ -31,7 +31,18 @@ class ProjectTask(models.Model):
     'related_task_id', 
     string='Related Tasks')
     task_id = fields.Many2one('project.task', string='Tasks', readonly=True)
+    #PG-16-Tasks-and-Sub-tasks-Expanded-View
+    parent_task_id = fields.Many2one('project.task', string='Parent Task' ,domain=[('parent_id','=',False)])
     
+
+    @api.model
+    def sync_existing_parent_id(self):
+        tasks = self.search([('parent_id','=',False)])
+        for task in tasks:
+            for task in task.child_ids:
+                task.parent_task_id = task.parent_id.id if task.parent_id else False
+            
+
 
     @api.model_create_multi
     def create(self, vals_list):
