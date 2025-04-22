@@ -3,12 +3,11 @@
     <template id="external_layout_boxed_custom">
         <t t-foreach="docs" t-as="doc">
             <div t-attf-class="header o_company_#{doc.company_id.id}_layout">
-                <table class="table" style="width: 100%;">
+                <table class="table table-borderless" style="width: 100%;">
                     <tr>
                         <td style="text-align: left; vertical-align: middle;">
                             <h1>
                                 <span style="font-weight: bold;">Scorecard Report for 
-                                    
                                     <t t-esc="doc.task.name"/>
                                 </span>
                             </h1>
@@ -22,7 +21,6 @@
             <div t-attf-class="article o_report_layout_boxed o_table_boxed o_company_#{doc.company_id.id}_layout o_snail_mail {{'o_report_layout_background' if doc.company_id.layout_background != 'Blank' else ''}}"
              t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % doc.company_id.layout_background_image.decode('utf-8') if doc.company_id.layout_background_image and doc.company_id.layout_background == 'Custom' else
                            '/base/static/img/demo_logo_report.png' if doc.company_id.layout_background == 'Demo logo' else ''}});"
-             
              t-att-data-oe-model="o and o._name"
              t-att-data-oe-id="o and o.id"
              t-att-data-oe-lang="o and o.env.context.get('lang')">
@@ -33,11 +31,7 @@
                     <div class="col-8"></div>
                     <div class="col-4 text-end">
                         <span t-if="report_type == 'pdf'" class="text-muted">Page 
-                            
-                            
                             <span class="page"/> / 
-                            
-                            
                             <span class="topage"/></span>
                     </div>
                 </div>
