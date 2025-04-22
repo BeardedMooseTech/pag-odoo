@@ -72,11 +72,13 @@
                                         <t t-set="ytd_plan" t-value="0"/>
                                         <t t-foreach="months" t-as="month">
                                             <t t-set="month_task" t-value="subtask.child_ids.filtered(lambda m: month.lower() in m.name.lower())"/>
+                                            <!--PG-34-Gray-out-Planned-values-for-months-in-the-future-based-on-date-->
+                                            <t t-set="task_compare" t-value="month_task[0].task_date > context_timestamp(datetime.datetime.now()).date() if month_task[0].task_date else 0"/>
                                             <t t-set="plan_val" t-value="month_task[0].plan_1 if month_task else 0"/>
                                             <t t-set="actual_val" t-value="month_task[0].actual_1 if month_task else 0"/>
                                             <t t-set="ytd_plan" t-value="ytd_plan + (plan_val if actual_val else 0)"/>
                                             <td style="text-align: center; font-size: 13px; border-right: 1px solid black; vertical-align: middle;"
-                                t-attf-style="background-color: #{'lightgray' if not actual_val else ''}; color: #{'#999' if not actual_val else 'black'};">
+                                t-attf-style="background-color: #{'lightgray' if task_compare else ''}; color: #{'#999' if task_compare else 'black'};">
                                                 <t t-if="month_task">
                                                     <t t-if="month_task[0].rollup_type == '4'">
                                                         <t t-if="plan_val">
