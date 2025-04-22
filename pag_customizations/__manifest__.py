@@ -29,7 +29,7 @@ Module containing customizations for Precision Aviation Group
         "web.assets_backend": [
             "pag_customizations/static/src/xml/list.xml",
             "pag_customizations/static/src/js/list_renderer.js",
-            "pag_customizations/static/src/js/project_controller.js",
+            #"pag_customizations/static/src/js/project_controller.js",#PG-35-Tabs-on-Task-Sub-task-Sub-task-Sub-task-revert-back-to-primary-tab-when-I-click-one
             "pag_customizations/static/src/js/percentage_widget.js",
         ],
     },

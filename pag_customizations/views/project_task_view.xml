@@ -9,6 +9,8 @@
                  <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="initiative_id" invisible="1"/>
                     <field name="project_type" invisible="1"/>
+                    <!--PG-34-Gray-out-Planned-values-for-months-in-the-future-based-on-date-->
+                    <field name="task_date"/>
                 </xpath>
                 <xpath expr="//div[hasclass('o_state_container')]" position="replace"/>
                 <xpath expr="//div[hasclass('o_state_container')]" position="replace">
@@ -49,6 +51,8 @@
                             <field name="rollup_type" required="parent_id"/>
                             <field name="task_id" invisible="1"/>
                             <field name="related_tasks" invisible="1"/>
+                            <!--PG-34-Gray-out-Planned-values-for-months-in-the-future-based-on-date-->
+                            <field name="task_date" optional="hide"/>
                         </group>
                     </page>
                 </xpath>
@@ -126,6 +130,8 @@
                     <!--<field name="plan_2" optional="show"/>
                    <field name="actual_2"  optional="show"/>-->
                  <field name="rollup_type" required="parent_id"  invisible="project_type =='pmo'" optional="hide"/>
+                 <!--PG-34-Gray-out-Planned-values-for-months-in-the-future-based-on-date-->
+                 <field name="task_date" optional="hide"/>
                </xpath>
             </field>
          </record>
