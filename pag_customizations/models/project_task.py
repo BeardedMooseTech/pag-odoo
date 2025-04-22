@@ -31,7 +31,8 @@ class ProjectTask(models.Model):
     'related_task_id', 
     string='Related Tasks')
     task_id = fields.Many2one('project.task', string='Tasks', readonly=True)
-    
+    #PG-34-Gray-out-Planned-values-for-months-in-the-future-based-on-date
+    task_date = fields.Date(string="Date")
 
     @api.model_create_multi
     def create(self, vals_list):
