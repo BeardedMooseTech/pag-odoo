@@ -249,7 +249,7 @@
             <field name="inherit_id" ref="project.view_task_search_form_project_fsm_base"/>
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='project']" position="after">
-                    <filter string="Parent Task" name="Parent" context="{'group_by': 'parent_id'}"/>
+                    <filter string="Parent Task" name="Parent" context="{'group_by': 'parent_task_id'}"/>
                     <filter string="Task" name="Task" context="{'group_by': 'task_id'}"/>
                     <filter string="SubTask" name="Subtask" context="{'group_by': 'child_ids'}"/>
                     <filter string="Status" name="Status" context="{'group_by': 'task_status'}"/>
