@@ -127,7 +127,7 @@
                                                 <t t-set="ytd_actual" t-value="ytd_actual + actual_val"/>
                                                 <td style="text-align: center; font-size: 13px; border-right: 1px solid black;vertical-align: middle;"
                                 t-attf-style="  #{ 'background-color: green; color: white;' if actual_val and plan_val and actual_val >= plan_val 
-     else 'background-color: red; color: white;' if actual_val and plan_val and actual_val &lt; plan_val 
+     else 'background-color: red; color: white;' if actual_val &lt; plan_val 
      else '' }">
                                                     <t t-if="month_task">
                                                         <t t-if="month_task[0].rollup_type == '4'">
