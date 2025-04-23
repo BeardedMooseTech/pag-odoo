@@ -120,14 +120,16 @@
                                         line-height: 1;
                                             ">Actual</td>
                                             <t t-set="ytd_actual" t-value="0"/>
+                                            <t t-set="current_month" t-value="datetime.datetime.today().month"/>
                                             <t t-foreach="months" t-as="month">
-                                                <t t-set="month_task" t-value="subtask.child_ids.filtered(lambda m: month.lower() in m.name.lower())"/>
-                                                <t t-set="plan_val" t-value="month_task[0].plan_1 if month_task else 0"/>
-                                                <t t-set="actual_val" t-value="month_task[0].actual_1 if month_task else 0"/>
-                                                <t t-set="ytd_actual" t-value="ytd_actual + actual_val"/>
-                                                <td style="text-align: center; font-size: 13px; border-right: 1px solid black;vertical-align: middle;"
+                                            <t t-set="month_index" t-value="months.index(month) + 1"/> 
+                                            <t t-set="month_task" t-value="subtask.child_ids.filtered(lambda m: month.lower() in m.name.lower())"/>
+                                            <t t-set="plan_val" t-value="month_task[0].plan_1 if month_task else 0"/>
+                                            <t t-set="actual_val" t-value="month_task[0].actual_1 if month_task else 0"/>
+                                            <t t-set="ytd_actual" t-value="ytd_actual + actual_val"/>
+                                            <td style="text-align: center; font-size: 13px; border-right: 1px solid black;vertical-align: middle;"
                                 t-attf-style="  #{ 'background-color: green; color: white;' if actual_val and plan_val and actual_val >= plan_val 
-     else 'background-color: red; color: white;' if actual_val &lt; plan_val 
+     else 'background-color: red; color: white;' if   actual_val &lt; plan_val  and month_index &lt;= current_month 
      else '' }">
                                                     <t t-if="month_task">
                                                         <t t-if="month_task[0].rollup_type == '4'">
