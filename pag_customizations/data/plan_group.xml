@@ -6,5 +6,8 @@
         <field name="name">Project Plans</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
+    <!--PG-16-Tasks-and-Sub-tasks-Expanded-View-->
+     <function model="project.task" name="sync_existing_subtasks_to_m2m"/> 
+     <function model="project.task" name="sync_existing_parent_id"/>
     </data>
 </odoo>

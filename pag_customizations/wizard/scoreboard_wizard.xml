@@ -1,0 +1,32 @@
+<odoo>
+    <!--PG-17-Scorecard-Proof-of-Concept-->
+   <record id="view_scoreboard_wizard_form" model="ir.ui.view">
+        <field name="name">scoreboard.wizard.form</field>
+        <field name="model">scoreboard.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Scorecard Wizard">
+                <group>
+                    <field name="task" placeholder="Select a Parent Task"/>
+                    <field name="child_task_ids" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button string="Print" class="btn-primary" type="object" name="action_print"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_scoreboard_wizard" model="ir.actions.act_window">
+        <field name="name">Scorecard Report</field>
+        <field name="res_model">scoreboard.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <!-- Menu item -->
+    <menuitem
+            name="Scorecard Report"
+            id="menu_project__scoreboard"
+            action="action_scoreboard_wizard"
+            parent="project.menu_project_report"
+    />
+</odoo>
