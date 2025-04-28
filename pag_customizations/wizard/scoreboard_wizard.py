@@ -5,10 +5,11 @@ class ScoreboardWizard(models.TransientModel):
     _name = 'scoreboard.wizard'
     _description = 'Scoreboard Wizard'
 
+    #PG-39-Scorecard-Parent-Task-selection-shows-tasks-from-other-project-types
     task = fields.Many2one(
         'project.task',
         string="Parent Task",
-        domain="[('parent_id', '=', False)]",
+        domain="[('parent_id', '=', False),('project_type','=','goals')]",
         required=True
     )
 
