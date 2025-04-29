@@ -6,33 +6,26 @@ class ScoreboardWizard(models.TransientModel):
     _description = 'Scoreboard Wizard'
 
     #PG-39-Scorecard-Parent-Task-selection-shows-tasks-from-other-project-types
-    task = fields.Many2one(
-        'project.task',
-        string="Parent Task",
+    #PG-38-Ability-to-print-scorecards-for-more-than-1-parent-task
+    task_ids = fields.Many2many('project.task', string="Parent Task",
         domain="[('parent_id', '=', False),('project_type','=','goals')]",
-        required=True
-    )
-
-    child_task_ids = fields.One2many(
-        'project.task',
-        'wizard_id',
-        string="Child Tasks",
-        compute='_compute_child_tasks',
-        store=False
-    )
+        required=True)
     company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company, required=True)
-    
+    select_all = fields.Boolean(string="Select All Task")
 
-    @api.depends('task')
-    def _compute_child_tasks(self):
-        for wizard in self:
-            print("wizard",wizard,wizard.task)
-            if wizard.task:
-                wizard.child_task_ids = self.env['project.task'].search([
-                    ('parent_id', '=', wizard.task.id)
-                ])
+    @api.onchange('select_all')
+    def  onchange_selectall(self):
+        for rec in self:
+            if rec.select_all:
+                rec.task_ids = self.env['project.task'].search([('parent_id', '=', False),('project_type','=','goals')]).ids
             else:
-                wizard.child_task_ids = []
+                rec.task_ids = False
+
 
     def action_print(self): 
-        return self.env.ref('pag_customizations.action_pag_scoreboard_report').report_action(self)
+        url = '/download/pdf_zip_from_wizard?ids=%s' % ','.join(map(str, self.ids))
+        return {
+            'type': 'ir.actions.act_url',
+            'url': url,
+            'target': 'self',
+        }
