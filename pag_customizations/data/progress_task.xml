@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!--PG-42-Color-code-the-scorecard-based-on-the-status-of-the-sub-task-sub-task-->
         <!--PAG-2-Project-Tasks-Changes-->
         <record id="task_1" model="progress.task">
             <field name="name">Not Started</field>
@@ -17,21 +18,14 @@
             <field name="color">10</field>
         </record>
         <record id="task_3" model="progress.task">
-            <field name="name">At Risk</field>
+            <field name="name">At Risk/Delayed</field>
             <field name="description">Potential to Miss Target Date (Mitigation Plan in Place)
                Some challenges have been identified, but a mitigation plan is in place.
                The task may need extra attention or adjustments to stay on schedule.
             </field>
             <field name="color">2</field>
         </record>
-      <record id="task_4" model="progress.task">
-            <field name="name">Delayed</field>
-            <field name="description">Likely to Miss Target Date
-               Progress is behind schedule, and it is unlikely to meet the deadline.
-               A mitigation plan may be insufficient or not yet defined.
-            </field>
-            <field name="color">3</field>
-        </record>
+     
         <record id="task_5" model="progress.task">
             <field name="name">Blocked</field>
             <field name="description">Requires Immediate Attention
@@ -40,13 +34,7 @@
             </field>
             <field name="color">1</field>
         </record>
-        <record id="task_6" model="progress.task">
-            <field name="name">Completed- Pending Review</field>
-            <field name="description">The work is finished, but it is waiting for internal review, testing, or stakeholder approval.
-            If rejected, it may need rework.
-            </field>
-            <field name="color">8</field>
-        </record>
+       
         <record id="task_7" model="progress.task">
             <field name="name">Completed</field>
             <field name="description">Task is fully completed and approved.
@@ -54,12 +42,6 @@
             </field>
             <field name="color">9</field>
         </record>
-        <record id="task_8" model="progress.task">
-            <field name="name">On Hold/Canceled</field>
-            <field name="description">The task has been paused, either due to reprioritization, resource limitations, or external dependencies.
-               No progress is expected in the immediate term.
-            </field>
-            <field name="color">11</field>
-        </record>
+      
     </data>
 </odoo>
