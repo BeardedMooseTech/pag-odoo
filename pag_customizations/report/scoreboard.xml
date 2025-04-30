@@ -145,7 +145,7 @@
                             t-attf-style="background-color: #{
                             'gray' if status_val.name == 'Not Started'
                             else 'blue' if status_val.name == 'On Track'
-                            else 'yellow' if status_val.name == 'At Risk/Delayed'
+                            else '#FFBF00' if status_val.name == 'At Risk/Delayed'
                             else 'red' if status_val.name == 'Blocked'
                             else 'green' if status_val.name == 'Completed'
                             else 'white'
