@@ -18,15 +18,30 @@ class ScoreboardDownloadController(http.Controller):
         report_action = request.env.ref('pag_customizations.action_pag_scoreboard_report')
         try:
             for index, record in enumerate(records, start=1):
-                for task  in record.task_ids:
-                    try:
+                if len(record.task_ids) == 1:
+                    for task  in record.task_ids:
                         pdf_content, _ = report_action._render_qweb_pdf(report_action.id,record.ids, data={'task': task})
-                    except Exception as e:
-                        raise UserError(f"Failed to generate PDF for Scorecard {index}: {str(task.name)}")
-                   
-                    base_name = task.name.replace(' ', '_')
-                    filename = f"{base_name}.pdf"
-                    zip_file.writestr(filename, pdf_content)
+                        base_name = task.name.replace(' ', '_')
+                        filename = f"{base_name}.pdf"
+                       
+                        pdfhttpheaders = [
+                            ('Content-Type', 'application/pdf'),
+                            ('Content-Length', str(len(pdf_content))),
+                            ('Content-Disposition', f'attachment; filename="{filename}"')
+                        ]
+
+                        return request.make_response(pdf_content, headers=pdfhttpheaders)
+                
+                else:
+                    for task  in record.task_ids:
+                        try:
+                            pdf_content, _ = report_action._render_qweb_pdf(report_action.id,record.ids, data={'task': task})
+                        except Exception as e:
+                            raise UserError(f"Failed to generate PDF for Scorecard {index}: {str(task.name)}")
+                       
+                        base_name = task.name.replace(' ', '_')
+                        filename = f"{base_name}.pdf"
+                        zip_file.writestr(filename, pdf_content)
             zip_file.close()
             zip_buffer.seek(0)
             zip_data = zip_buffer.read()
