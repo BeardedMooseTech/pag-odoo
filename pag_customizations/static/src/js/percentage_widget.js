@@ -13,32 +13,28 @@ class PercentageField extends FloatField {
         });
     }
 
-    // Format the display value (readonly mode)
+    
     get formattedValue() {
         const formatted = super.formattedValue;
         if (formatted == null || formatted === "") {
             return formatted;
         }
-        const num = parseFloat(formatted);
         if (this.props.record.data.rollup_type === '4') {
-            return `${num} %`;  // % appears after the number in readonly
+            return `${formatted} %`;
         }
-        return formatted;
+        return `${formatted}`;
     }
 
-    // Parse the input value (ensure % does not affect saving)
     parse(value) {
-        if (typeof value === "string") {
-            value = value.replace(/\s*%\s*/g, ""); // Remove % if manually typed
-        }
-        return super.parse(value);
+    if (typeof value === "string") {
+        value = value.replace(/,/g, "").replace(/\s*%\s*/g, "");
     }
+    return parseFloat(value);
+}
 
-    // Render the input field with a % suffix (edit mode)
     getInputProps() {
         const props = super.getInputProps();
         if (this.props.record.data.rollup_type === '4') {
-            // Add a suffix outside the input (Odoo 18 supports this)
             props.suffix = " %";
         }
         return props;
