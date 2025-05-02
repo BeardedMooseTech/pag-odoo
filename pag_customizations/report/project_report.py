@@ -8,8 +8,9 @@ class ReportProjectTaskUser(models.Model):
     child_ids = fields.Many2many('project.task', relation='project_task_related_task_rel', column1='task_id',
         column2='related_task_id', string='Subtask',store=True)
     task_status = fields.Many2one('progress.task',string='Status') 
-    actual_1 = fields.Float(string="Actual",digits=(16, 4))
-    plan_1 = fields.Float(string="Plan",digits=(16, 4))
+    #PG-43-Remove-decimal-places-from-Scorecard
+    actual_1 = fields.Float(string="Actual",digits=(16, 0))
+    plan_1 = fields.Float(string="Plan",digits=(16, 0))
 
 
     def _select(self):
