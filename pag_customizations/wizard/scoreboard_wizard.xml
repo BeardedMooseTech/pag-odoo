@@ -6,8 +6,9 @@
         <field name="arch" type="xml">
             <form string="Scorecard Wizard">
                 <group>
-                    <field name="task" placeholder="Select a Parent Task"/>
-                    <field name="child_task_ids" invisible="1"/>
+                    <!--PG-38-Ability-to-print-scorecards-for-more-than-1-parent-task-->
+                    <field name="task_ids" placeholder="Select a Parent Task" widget="many2many_tags" options="{'no_create_edit': True,'no_create':True}"/> 
+                    <field name="select_all"/>
                 </group>
                 <footer>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>

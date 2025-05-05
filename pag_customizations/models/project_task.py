@@ -10,10 +10,11 @@ class ProjectTask(models.Model):
 
 
     task_status = fields.Many2one('progress.task',string='Status',tracking=True) 
-    actual_1 = fields.Float(string="Actual",tracking=True,digits=(16, 4))
+    #PG-43-Remove-decimal-places-from-Scorecard
+    actual_1 = fields.Float(string="Actual",tracking=True,digits=(16, 0))
     actual_2 = fields.Float(string="Actual 2",tracking=True)
     # PG-22-View-as-if-based-metric
-    plan_1 = fields.Float(string="Plan",tracking=True,digits=(16, 4))
+    plan_1 = fields.Float(string="Plan",tracking=True,digits=(16, 0))
     #PG-18-Make-Roll-up-Type-not-required-on-parent-level
     rollup_type = fields.Selection([('1','Avg'),('2','YTD'),('3','Last Actual (Numeric)'),('4','Last Actual (Percentage)')],string="Rollup Type",tracking=True)
     plan_2 = fields.Float(string="Plan 2",tracking=True)
