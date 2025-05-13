@@ -72,15 +72,16 @@
                     ;black:status_id == \'Completed- Pending Review\'
                     ;blue:status_id == \'Completed\'
                     ;gray:status_id == \'On Hold/Canceled\'
-                    '}"  optional="show" readonly="1" invisible="project_type =='pmo'"/>
+                    '}"  optional="show"  invisible="project_type =='pmo'"/>
                     <!--  PG-22-View-as-if-based-metric-->
-                    <field name="plan_1"  optional="hide" readonly="1" invisible="project_type =='pmo'" widget="percentage_field"/>
-                    <field name="actual_1" optional="hide" readonly="1" invisible="project_type =='pmo'" widget="percentage_field"/>
+                     <!--PG-46-Tasks-update-screen-for-actual-and-plan-->
+                    <field name="plan_1"  optional="show"  invisible="project_type =='pmo'" widget="percentage_field"/>
+                    <field name="actual_1" optional="show"  invisible="project_type =='pmo'" widget="percentage_field"/>
                      <!--PG-20-Changes-to-Plan-Actual-fields-->
                     <!--<field name="plan_2"  optional="hide" readonly="1"/>
                     <field name="actual_2" optional="hide" readonly="1"/>-->
                     <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
-                    <field name="rollup_type" optional="hide" required="parent_id" readonly="1" invisible="project_type =='pmo'"/>
+                    <field name="rollup_type" optional="hide" required="parent_id" invisible="project_type =='pmo'"/>
                 </xpath>
                 <!--PG-2-Hide-Blocked-By-tab-on-tasks-->
                 <xpath expr="//page[@name='task_dependencies']" position="attributes">
