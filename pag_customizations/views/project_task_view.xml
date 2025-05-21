@@ -18,24 +18,22 @@
                         <field name="state" widget="project_task_state_selection" class="o_task_state_widget"/>
                     </div>
                 </xpath>
+                <!--PG-51-Color-configuration-not-present-anymore-->
                <xpath expr="//widget[@name='web_ribbon']" position="after">
                     <field name="status_id" invisible="1"/>
                      <widget name="web_ribbon" title="Not Started"
-                                    invisible="status_id != 'Not Started' or project_type =='pmo'"  bg_color="text-bg-primary"/>
+                                    invisible="status_id != 'Not Started' or project_type =='pmo'"  bg_color="text-bg-dark"/>
                      <widget name="web_ribbon" title="On Track"
-                                    invisible="status_id != 'On Track' or project_type =='pmo'" bg_color="text-bg-success"/>
-                     <widget name="web_ribbon" title="At Risk"
-                                    invisible="status_id != 'At Risk' or project_type =='pmo'"  bg_color="text-bg-danger"/>
-                     <widget name="web_ribbon" title="Delayed"
-                                    invisible="status_id != 'Delayed' or project_type =='pmo'"  bg_color="text-bg-warning"/>
+                                    invisible="status_id != 'On Track' or project_type =='pmo'" bg_color="text-bg-info"/>
+                    
+                     <widget name="web_ribbon" title="At Risk/Delayed"
+                                    invisible="status_id != 'At Risk/Delayed' or project_type =='pmo'"  bg_color="text-bg-warning"/>
                      <widget name="web_ribbon" title="Blocked"
                                     invisible="status_id != 'Blocked' or project_type =='pmo'"  bg_color="text-bg-danger"/>
-                     <widget name="web_ribbon" title="Completed- Pending Review"
-                                    invisible="status_id != 'Completed- Pending Review' or project_type =='pmo'"   bg_color="text-bg-dark"/>
+                   
                      <widget name="web_ribbon" title="Completed"
-                                    invisible="status_id != 'Completed' or project_type =='pmo'" bg_color="text-bg-info"/>
-                     <widget name="web_ribbon" title="On Hold/Canceled"
-                                    invisible="status_id != 'On Hold/Canceled' or project_type =='pmo'"  bg_color="text-bg-secondary"/>
+                                    invisible="status_id != 'Completed' or project_type =='pmo'" bg_color="text-bg-success"/>
+                   
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page string="Progress" name="task_progress" invisible="project_type=='pmo'">
@@ -63,15 +61,14 @@
                 <xpath expr="//field[@name='child_ids']//list/field[@name='stage_id']" position="after">
                     <field name="status_id" column_invisible="1"/>
                     <!--PG-11-Status-on-level-two-needs-to-be-read-only-->
+                    <!--PG-51-Color-configuration-not-present-anymore-->
                     <field name="task_status" options="{'fg_color': 
-                    'purple:status_id == \'Not Started\'
-                    ;green:status_id == \'On Track\'
-                    ;red:status_id == \'At Risk\'
+                    'gray:status_id == \'Not Started\'
+                    ;blue:status_id == \'On Track\'
+                    ;yellow:status_id == \'At Risk/Delayed\'
                     ;yellow:status_id == \'Delayed\'
                     ;red:status_id == \'Blocked\'
-                    ;black:status_id == \'Completed- Pending Review\'
-                    ;blue:status_id == \'Completed\'
-                    ;gray:status_id == \'On Hold/Canceled\'
+                    ;green:status_id == \'Completed\'
                     '}"  optional="show"  invisible="project_type =='pmo'"/>
                     <!--  PG-22-View-as-if-based-metric-->
                      <!--PG-46-Tasks-update-screen-for-actual-and-plan-->
@@ -108,16 +105,15 @@
                 <field name="initiative_id"/>
                 <field name="project_type"/>
                 <field name="status_id" column_invisible="1"/>
+                <!--PG-51-Color-configuration-not-present-anymore-->
                    <field name="task_status"
                     options="{'fg_color': 
-                    'purple:status_id == \'Not Started\'
-                    ;green:status_id == \'On Track\'
-                    ;red:status_id == \'At Risk\'
+                    'gray:status_id == \'Not Started\'
+                    ;blue:status_id == \'On Track\'
+                    ;yellow:status_id == \'At Risk/Delayed\'
                     ;yellow:status_id == \'Delayed\'
                     ;red:status_id == \'Blocked\'
-                    ;black:status_id == \'Completed- Pending Review\'
-                    ;blue:status_id == \'Completed\'
-                    ;gray:status_id == \'On Hold/Canceled\'
+                    ;green:status_id == \'Completed\'
                     '}" optional="hide" invisible="project_type =='pmo'"/>
                   
                    <!--PG-18-Make-Roll-up-Type-not-required-on-parent-level-->
