@@ -66,7 +66,6 @@
                     'gray:status_id == \'Not Started\'
                     ;blue:status_id == \'On Track\'
                     ;yellow:status_id == \'At Risk/Delayed\'
-                    ;yellow:status_id == \'Delayed\'
                     ;red:status_id == \'Blocked\'
                     ;green:status_id == \'Completed\'
                     '}"  optional="show"  invisible="project_type =='pmo'"/>
@@ -111,7 +110,6 @@
                     'gray:status_id == \'Not Started\'
                     ;blue:status_id == \'On Track\'
                     ;yellow:status_id == \'At Risk/Delayed\'
-                    ;yellow:status_id == \'Delayed\'
                     ;red:status_id == \'Blocked\'
                     ;green:status_id == \'Completed\'
                     '}" optional="hide" invisible="project_type =='pmo'"/>
