@@ -177,8 +177,7 @@ class ProjectTask(models.Model):
                     task.actual_1 = latest_task.actual_1 or 0.0
 
             # Set parent status based on most recently updated subtask
-            last_updated_task = sub_tasks.sorted(lambda t: t.write_date, reverse=True)[:1]
-            task.task_status = last_updated_task.task_status if last_updated_task else False
+            task.task_status = sub_tasks_last_month.task_status if sub_tasks_last_month else False
     
     #PG-10-Sub-tasks-list-changes
     @api.onchange('rollup_type')
