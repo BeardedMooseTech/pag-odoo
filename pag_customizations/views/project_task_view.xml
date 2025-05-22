@@ -47,7 +47,7 @@
                     <attribute name="invisible">project_type =='goals'</attribute>
                 </xpath>
 
-
+                <xpath expr="//div[hasclass('o_state_container')]" position="replace"/>
                 <xpath expr="//div[hasclass('o_state_container')]" position="replace"/>
                 <xpath expr="//field[@name='state']" position="replace"/>
                 <!--PG-51-Color-configuration-not-present-anymore-->
