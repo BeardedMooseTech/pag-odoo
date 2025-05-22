@@ -141,7 +141,7 @@ class ProjectTask(models.Model):
         return res
 
     #PG-10-Sub-tasks-list-changes
-    @api.depends('child_ids.actual_1', 'child_ids.title', 'child_ids.write_date', 'rollup_type')
+    @api.depends('child_ids.actual_1', 'child_ids.write_date', 'rollup_type')
     def _compute_roll_up_values(self):
         for task in self:
             if not task.child_ids:
@@ -173,7 +173,7 @@ class ProjectTask(models.Model):
                 if latest_task:
                     task.actual_1 = latest_task.actual_1 or 0.0
 
-            # Set parent status based on most recently updated subtask (any time, not just last month)
+            # Set parent status based on most recently updated subtask
             last_updated_task = sub_tasks.sorted(lambda t: t.write_date, reverse=True)[:1]
             task.task_status = last_updated_task.task_status if last_updated_task else False
     
