@@ -49,7 +49,6 @@
 
 
                 <xpath expr="//div[hasclass('o_state_container')]" position="replace"/>
-                <xpath expr="//div[hasclass('o_state_container')]" position="replace"/>
                 <xpath expr="//field[@name='state']" position="replace"/>
                 <!--PG-51-Color-configuration-not-present-anymore-->
                <xpath expr="//widget[@name='web_ribbon']" position="after">
