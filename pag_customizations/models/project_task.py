@@ -56,6 +56,9 @@ class ProjectTask(models.Model):
             if vals.get('child_ids'):
                 task._sync_child_ids_to_m2m()
                 task._sync_m2m_to_child_ids()
+            if 'rollup_type' in vals:
+                for task in self:
+                    task._add_rollup_type_to_subtask(vals['rollup_type'])
         return task
 
    
