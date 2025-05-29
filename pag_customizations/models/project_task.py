@@ -38,6 +38,30 @@ class ProjectTask(models.Model):
     parent_task_id = fields.Many2one('project.task', string='Parent Task' ,domain=[('parent_id','=',False)])
     #PG-34-Gray-out-Planned-values-for-months-in-the-future-based-on-date
     task_date = fields.Date(string="Date")
+    #PG-53-Hide-Progress-Tabs-on-Task-Sub-Task
+    show_progress_tab = fields.Boolean(compute='_compute_show_tabs')
+    show_subtasks_tab = fields.Boolean(compute='_compute_show_tabs')
+
+    @api.depends('parent_id', 'parent_id.parent_id', 'project_id.project_type')
+    def _compute_show_tabs(self):
+        for task in self:
+            project_type = task.project_id.project_type
+            is_goal_project = project_type == 'goals'
+            is_subtask = bool(task.parent_id)
+            is_sub_subtask = bool(task.parent_id and task.parent_id.parent_id)
+
+            # Progress tab logic
+            if is_goal_project and not self.env.user.has_group('base.group_no_one'):
+                task.show_progress_tab = not (not is_sub_subtask)  # Hide for parent & sub-task
+            else:
+                task.show_progress_tab = True
+
+            # Sub-tasks tab logic
+            if  is_goal_project and not self.env.user.has_group('base.group_no_one'):
+                task.show_subtasks_tab = not (is_sub_subtask)
+            else:
+                task.show_subtasks_tab = True
+
 
     @api.model
     def sync_existing_parent_id(self):
