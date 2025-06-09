@@ -187,15 +187,17 @@ class ProjectTask(models.Model):
             )
 
             if task.rollup_type == '1':
-                if sub_tasks_last_month and sub_tasks_last_month.actual_1:
-                    task.actual_1 = sum(sub_tasks_last_month.mapped('actual_1')) / len(sub_tasks_last_month)
-              
-            elif task.rollup_type == '2' and sub_tasks_last_month.actual_1:
+                if sub_tasks_last_month:
+                    if  sub_tasks_last_month.actual_1:
+                        task.actual_1 = sum(sub_tasks_last_month.mapped('actual_1')) / len(sub_tasks_last_month)
+                    else:
+                        task.actual_1 = 0
+            elif task.rollup_type == '2':
                 if sub_tasks_last_month:
                     task.actual_1 = sum(sub_tasks_last_month.mapped('actual_1'))
                 
 
-            elif task.rollup_type in ('3', '4') and sub_tasks_last_month.actual_1:
+            elif task.rollup_type in ('3', '4') :
                 latest_task = sub_tasks_last_month.sorted(lambda t: t.write_date, reverse=True)[:1]
                 if latest_task:
                     task.actual_1 = latest_task.actual_1 or 0.0
