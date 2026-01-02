@@ -134,9 +134,12 @@
                                             <t t-foreach="months" t-as="month">
                                             
                                             <t t-set="month_task" t-value="subtask.child_ids.filtered(lambda m: month.lower() in m.name.lower())"/>
-                                           <t t-set="current_month" t-value="datetime.datetime.today().month"/>
+                                            <!--PG-64-Scorecard-not-showing-YTD-Actual-values-in-new-year-->
+                                           <t t-set="today" t-value="datetime.date.today()"/>
+                                           
+                                            <t t-set="current_month" t-value="12 if today.month == 1 else today.month-1"/>
                                            <t t-foreach="range(1, current_month)" t-as="m_index">
-                                            <t t-set="month_name" t-value="months[m_index - 1]"/>
+                                            <t t-set="month_name" t-value="months[m_index]"/>
                                             
                                             <t t-set="last_month_task" t-value="subtask.child_ids.filtered(lambda m: month_name.lower() in m.name.lower())"/>
 
